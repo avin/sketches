@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "canvas-sketch": "^0.2.0",
-    "canvas-sketch-util": "^1.6.0"
+    "canvas-sketch-util": "^1.6.0",
+    "nice-color-palettes": "^2.0.0"
   }
 }
