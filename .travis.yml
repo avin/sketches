@@ -7,6 +7,7 @@ cache:
     - node_modules
 
 before_script:
+  - npm install canvas-sketch-cli -g
   - yarn
 
 script:
