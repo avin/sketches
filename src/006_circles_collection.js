@@ -32,7 +32,7 @@ const sketch = () => {
                 false
             );
             context.save();
-            if(random.value()>0.95){
+            if (random.value() > 0.95) {
                 context.fillStyle = random.pick(palette);
             }
             context.fill();
