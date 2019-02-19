@@ -1,6 +1,10 @@
-# Sketches
+# Sketches [![Build Status](https://travis-ci.org/avin/sketches.svg?branch=master)](https://travis-ci.org/avin/sketches)
 
-## Build and run
+## View online
+
+[ >> [Online sketches](https://avin.github.io/sketches/) << ]
+
+## Install and run
 
 Install [canvas-sketch-cli](https://github.com/mattdesl/canvas-sketch) globally first:
 
