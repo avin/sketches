@@ -172,7 +172,7 @@ const sketch = () => {
                         Math.floor(x * cellSize + margin),
                         Math.floor(y * cellSize + margin),
                         Math.floor(cellSize + 1),
-                        Math.floor(cellSize + 1),
+                        Math.floor(cellSize + 1)
                     );
                     context.stroke();
 
