@@ -9,9 +9,9 @@ const settings = {
 
 const sketch = () => {
     const size = 40;
-    const maxTries = 20;
-    const maxLines = 1000;
-    const maxLineLength = 300;
+    const maxTries = size;
+    const maxLines = Number.MAX_SAFE_INTEGER;
+    const maxLineLength = size*size;
     const matrix = new Array(size).fill(null).map(() => new Array(size).fill(0));
 
     const cellsAround = [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -100,7 +100,7 @@ const sketch = () => {
 
         const margin = width * 0.1;
 
-        context.lineWidth = width * 0.01;
+        context.lineWidth = width * 0.4 / size;
 
         lines.forEach(line => {
             context.beginPath();
