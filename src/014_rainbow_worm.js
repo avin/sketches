@@ -32,7 +32,7 @@ const sketch = () => {
         let xBefore;
         let yBefore;
         let thicknessBefore;
-        for (let u = 0; u <= 1; u += 0.005) {
+        for (let u = 0; u <= 1; u += 0.002) {
             thickness = ((Math.cos(u * 30 + Math.cos(time / 1.5) * 10) / 2 + 0.8) * width) / 20;
 
             const x = lerp(margin, width - margin, u);
@@ -41,12 +41,12 @@ const sketch = () => {
             if (firstDot) {
                 firstDot = false;
             } else {
-                setTransformToLine(xBefore, yBefore, x, y, context);
+                const len = setTransformToLine(xBefore, yBefore, x, y, context);
                 context.beginPath();
 
                 context.lineTo(xBefore - x, -thicknessBefore);
-                context.lineTo(((x / xBefore) * (x - xBefore)) / 1.5, -thickness);
-                context.lineTo(((x / xBefore) * (x - xBefore)) / 1.5, +thickness);
+                context.lineTo(len / 2, -thickness);
+                context.lineTo(len / 2, +thickness);
                 context.lineTo(xBefore - x, +thicknessBefore);
                 context.fillStyle = `hsl(${360 * 1.5 * Math.cos(time + u)}, 50%, 50%)`;
                 context.moveTo(x, y + thickness);
