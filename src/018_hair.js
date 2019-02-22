@@ -28,7 +28,6 @@ const sketch = ({ width, height }) => {
         context.fillStyle = 'hsl(0, 0%, 98%)';
         context.fillRect(0, 0, width, height);
 
-        context.fillStyle = '#F00';
         context.lineWidth = width * 0.0001;
 
         matrix.forEach(row => {
