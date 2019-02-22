@@ -14,7 +14,7 @@ const sketch = ({ width, height }) => {
     const y = v => lerp(height / 2 - margin, height / 2 + margin, v) - height * 0.3;
 
     return ({ context, width, height, time }) => {
-        context.fillStyle = 'hsl(0, 0%, 98%)';
+        context.fillStyle = 'hsla(0, 0%, 98%, 0.25)';
         context.fillRect(0, 0, width, height);
 
         context.lineWidth = width * 0.001;
