@@ -19,7 +19,6 @@ const sketch = () => {
 
             for (let i = 0; i <= linePointSteps; i += 1) {
                 const distanceToCenter = Math.abs(linePointSteps / 2 - i) / linePointSteps;
-                const isExtreme = i === 0 || i === linePointSteps;
                 line.push([i / linePointSteps, -(random.value() * height * 0.001) + 1 / distanceToCenter]);
             }
             return line;

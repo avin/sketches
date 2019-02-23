@@ -16,7 +16,7 @@ const sketch = () => {
 
     const cellsAround = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
-    let lines = [];
+    const lines = [];
 
     let iterations = 0;
     while (iterations < maxLines) {
@@ -62,22 +62,21 @@ const sketch = () => {
                 let completedLine = false;
                 while (!completedLine) {
                     let foundCell = false;
-                    for (let cA of random.shuffle(cellsAround)) {
-                        if (y + cA[0] >= size || y + cA[0] < 0 || x + cA[1] > size || x + cA[1] < 0) {
-                            continue;
-                        }
-                        if (!matrix[y + cA[0]][x + cA[1]]) {
-                            cellsCounter += 1;
-                            y = y + cA[0];
-                            x = x + cA[1];
-                            matrix[y][x] = cellsCounter;
-                            lines[iterations].push([y, x]);
+                    for (const cA of random.shuffle(cellsAround)) {
+                        if (!(y + cA[0] >= size || y + cA[0] < 0 || x + cA[1] > size || x + cA[1] < 0)) {
+                            if (!matrix[y + cA[0]][x + cA[1]]) {
+                                cellsCounter += 1;
+                                y += cA[0];
+                                x += cA[1];
+                                matrix[y][x] = cellsCounter;
+                                lines[iterations].push([y, x]);
 
-                            if (cellsCounter >= maxLineLength) {
-                                completedLine = true;
+                                if (cellsCounter >= maxLineLength) {
+                                    completedLine = true;
+                                }
+                                foundCell = true;
+                                break;
                             }
-                            foundCell = true;
-                            break;
                         }
                     }
                     if (!foundCell) {

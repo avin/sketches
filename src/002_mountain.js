@@ -1,5 +1,4 @@
 const canvasSketch = require('canvas-sketch');
-const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
@@ -37,6 +36,12 @@ const sketch = () => {
         let diff = 2;
 
         const countLines = 100;
+
+        const drawLine = diff => {
+            points.forEach(({ position, radius }) => {
+                ctx.lineTo(position * width, radius * height / 2 + diff);
+            });
+        };
         for (let i = 1; i < countLines; i += 1) {
             diff += i * 1.2;
             const color = random.pick(palette);
@@ -44,9 +49,7 @@ const sketch = () => {
             ctx.beginPath();
             ctx.strokeStyle = color;
             ctx.lineWidth = diff;
-            points.forEach(({ position, radius }) => {
-                ctx.lineTo(position * width, radius * height / 2 + diff);
-            });
+            drawLine(diff);
             ctx.stroke();
         }
     };

@@ -1,6 +1,4 @@
 import canvasSketch from 'canvas-sketch';
-import random from 'canvas-sketch-util/random';
-import palettes from 'nice-color-palettes';
 
 const settings = {
     dimensions: [2048, 2048],
@@ -8,7 +6,6 @@ const settings = {
 
 const sketch = () => {
     const fillStyle = 'hsl(0, 0%, 98%)';
-    const palette = random.pick(palettes);
 
     return ({ context, width, height }) => {
 
@@ -30,13 +27,13 @@ const sketch = () => {
             lines.push(line);
         }
 
-        for (let i = 5; i < lines.length; i++) {
+        for (let i = 5; i < lines.length; i+=1) {
             let j = 0;
             context.beginPath();
             context.strokeStyle = `hsl(0, 0%, ${50 - (50 * i/lines.length)}%)`;
             context.moveTo(lines[i][0].x, lines[i][0].y);
 
-            for (j = 0; j < lines[i].length - 2; j++) {
+            for (j = 0; j < lines[i].length - 2; j+=1) {
                 const xc = (lines[i][j].x + lines[i][j + 1].x) / 2;
                 const yc = (lines[i][j].y + lines[i][j + 1].y) / 2;
                 context.quadraticCurveTo(lines[i][j].x, lines[i][j].y, xc, yc);

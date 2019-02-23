@@ -1,5 +1,4 @@
 const canvasSketch = require('canvas-sketch');
-const random = require('canvas-sketch-util/random');
 const { lerp } = require('canvas-sketch-util/math');
 
 const settings = {
@@ -34,9 +33,9 @@ const sketch = ({ width, height }) => {
             } else {
                 context.lineTo(p[0], p[1]);
 
-                let pB = line[idx - 1];
+                const pB = line[idx - 1];
 
-                const A = Math.atan2(pB[1] - p[1], pB[0] - p[0]); //radians
+                const A = Math.atan2(pB[1] - p[1], pB[0] - p[0]); // radians
                 const R = width * 0.04 + Math.cos(time + idx / 2) * width * 0.02;
 
                 [-(Math.PI / 2), -(Math.PI / 2) * 3].forEach((rotate, idx) => {
@@ -45,7 +44,11 @@ const sketch = ({ width, height }) => {
 
                     context.lineTo(xC + p[0], yC + p[1]);
 
-                    idx % 2 ? lineContour1.push([xC + p[0], yC + p[1]]) : lineContour2.push([xC + p[0], yC + p[1]]);
+                    if (idx % 2) {
+                        lineContour1.push([xC + p[0], yC + p[1]]);
+                    } else {
+                        lineContour2.push([xC + p[0], yC + p[1]]);
+                    }
 
                     context.moveTo(p[0], p[1]);
                 });
@@ -55,7 +58,7 @@ const sketch = ({ width, height }) => {
 
         // Circles contour
         const lineContour = [...lineContour1, ...lineContour2.reverse()];
-        lineContour.forEach((p, idx) => {
+        lineContour.forEach(p => {
             context.beginPath();
             context.arc(p[0], p[1] + height * 0.3, width * 0.002, 0, Math.PI * 2, false);
             context.stroke();

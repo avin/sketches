@@ -15,32 +15,33 @@ const sketch = ({ width, height }) => {
 
     const points = [];
 
-    let steps = [[-1, 1], [1, 1], [1, -1], [-1, -1]];
+    const steps = [[-1, 1], [1, 1], [1, -1], [-1, -1]];
     let size = 1;
 
     let n = 0;
 
+    const processStep = (step, i) => {
+        n += 1;
+        size -= random.range(0.003, 0.006);
+
+        i += 1;
+        points.push({
+            x: (step[0] * size + random.range(-1, 1) * i * 0.0002) / 2 + 0.5,
+            y: (step[1] * size + random.range(-1, 1) * i * 0.0002) / 2 + 0.5,
+            colorS1: n * 2 + random.range(-10, 10),
+            colorS2: 100 - n / 4,
+            colorS3: 50 - n / 5,
+            seed1: random.range(-Math.PI, Math.PI),
+            seed2: random.range(-Math.PI, Math.PI),
+
+            seedPack: new Array(10).fill(null).map(() => random.range(-Math.PI, Math.PI)),
+        });
+    };
     for (let i = 0; i < Number.MAX_SAFE_INTEGER; i += 1) {
         if (size < 0) {
             break;
         }
-        steps.forEach(step => {
-            n += 1;
-            size -= random.range(0.003, 0.006);
-
-            i += 1;
-            points.push({
-                x: (step[0] * size + random.range(-1, 1) * i * 0.0002) / 2 + 0.5,
-                y: (step[1] * size + random.range(-1, 1) * i * 0.0002) / 2 + 0.5,
-                colorS1: n * 2 + random.range(-10, 10),
-                colorS2: 100 - n / 4,
-                colorS3: 50 - n / 5,
-                seed1: random.range(-Math.PI, Math.PI),
-                seed2: random.range(-Math.PI, Math.PI),
-
-                seedPack: new Array(10).fill(null).map(() => random.range(-Math.PI, Math.PI)),
-            });
-        });
+        steps.forEach(step => processStep(step, i));
     }
 
     return ({ context, width, height, time }) => {
@@ -66,7 +67,7 @@ const sketch = ({ width, height }) => {
                             Math.cos(time * bPoint.seedPack[i] * 5) * chatterFactor,
                         sy(bPoint.y) +
                             Math.cos(time + bPoint.seed2) * mFactor +
-                            Math.sin(time * bPoint.seedPack[i + 1] * 5) * chatterFactor,
+                            Math.sin(time * bPoint.seedPack[i + 1] * 5) * chatterFactor
                     );
                     context.lineTo(
                         sx(point.x) +
@@ -74,7 +75,7 @@ const sketch = ({ width, height }) => {
                             Math.cos(time * point.seedPack[i] * 5) * chatterFactor,
                         sy(point.y) +
                             Math.cos(time + point.seed2) * mFactor +
-                            Math.sin(time * point.seedPack[i + 1] * 5) * chatterFactor,
+                            Math.sin(time * point.seedPack[i + 1] * 5) * chatterFactor
                     );
                     context.stroke();
                 }

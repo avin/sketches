@@ -8,7 +8,7 @@ const settings = {
 };
 
 const breakLine = (line, min = 0.05, max = 0.15, sep = 0.02) => {
-    let results = [];
+    const results = [];
 
     let x = line[0];
 
@@ -20,7 +20,7 @@ const breakLine = (line, min = 0.05, max = 0.15, sep = 0.02) => {
     }
 
     if (results.length) {
-        let lastOne = results[results.length - 1];
+        const lastOne = results[results.length - 1];
         if (lastOne[1] - lastOne[0] < min) {
             results.splice(-1, 1);
         }
@@ -33,15 +33,12 @@ const breakLine = (line, min = 0.05, max = 0.15, sep = 0.02) => {
 const sketch = ({ width, height }) => {
     const margin = width * 0.1;
     const lineWidth = height * 0.008;
-    console.log(lineWidth);
-
-    // const step = 0.025;
 
     let values = [];
     for (let y = -1; y < 1; y += lineWidth / height * 5) {
         const ri = [];
         for (let x = -1; x < 1; x +=  0.0001) {
-            const distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+            const distance = Math.sqrt(x**2 + y**2);
 
             if (distance < 1) {
                 if (ri.length === 0) {
@@ -58,7 +55,7 @@ const sketch = ({ width, height }) => {
         return breakLine(v);
     });
 
-    return ({ context, width, height, time }) => {
+    return ({ context, width, height }) => {
         context.fillStyle = 'hsl(0, 0%, 98%)';
         context.fillRect(0, 0, width, height);
 

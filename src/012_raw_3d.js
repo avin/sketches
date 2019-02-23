@@ -52,6 +52,7 @@ const sketch = () => {
         return new Vertex2D(M.x, M.z);
     }
 
+    // eslint-disable-next-line no-unused-vars
     function projectPersp(M) {
         // Distance between the camera and the plane
         const d = 100;
@@ -83,9 +84,7 @@ const sketch = () => {
     }
 
     let firstTime = true;
-    let cubeObjects = [];
-    let dx;
-    let dy;
+    const cubeObjects = [];
 
     return ({ context, width, height, time }) => {
         context.lineJoin = 'round';
@@ -118,7 +117,7 @@ const sketch = () => {
 
         // Rotate a vertice
         function rotate(M, center, theta, phi, rand) {
-            theta = Math.cos(time * rand) * theta;
+            theta *= Math.cos(time * rand);
             // Rotation matrix coefficients
             const ct = Math.cos(theta);
             const st = Math.sin(theta);

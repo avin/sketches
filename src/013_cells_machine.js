@@ -8,7 +8,6 @@ const settings = {
 };
 
 const sketch = () => {
-    //const palette = random.shuffle([...random.pick(palettes), ...random.pick(palettes)]);
     let palette = random.shuffle([
         '#DB3737',
         '#0F9960',
@@ -36,44 +35,49 @@ const sketch = () => {
         }
     }
 
-    const mY = 200;
-    const mX = 200;
+    const mY = 250;
+    const mX = 250;
 
-    let cells = new Array(mY).fill(null).map(i => new Array(mX).fill(0));
+    let cells = new Array(mY).fill(null).map(() => new Array(mX).fill(0));
+
+    const calcCellsAround = (x, y) => {
+        let cellsAroundCount = 0;
+        cellsAround.forEach(c => {
+            let rY = y + c[0];
+            if (rY < 0) {
+                rY = mY - 1;
+            } else if (rY > mY - 1) {
+                rY = 0;
+            }
+
+            let rX = x + c[1];
+            if (rY < 0) {
+                rX = mX - 1;
+            } else if (rY > mX - 1) {
+                rX = 0;
+            }
+            if (cells[rY][rX]) {
+                cellsAroundCount += 1;
+            }
+        });
+        return cellsAroundCount;
+    };
 
     const tick = () => {
-        let newCells = new Array(mY).fill(null).map(i => new Array(mX).fill(0));
+        const newCells = new Array(mY).fill(null).map(() => new Array(mX).fill(0));
 
         for (let y = 0; y < mY; y += 1) {
             for (let x = 0; x < mX; x += 1) {
-                let cellsAroundCount = 0;
-                cellsAround.forEach(c => {
-                    let rY = y + c[0];
-                    if (rY < 0) {
-                        rY = mY - 1;
-                    } else if (rY > mY - 1) {
-                        rY = 0;
-                    }
-
-                    let rX = x + c[1];
-                    if (rY < 0) {
-                        rX = mX - 1;
-                    } else if (rY > mX - 1) {
-                        rX = 0;
-                    }
-                    if (cells[rY][rX]) {
-                        cellsAroundCount += 1;
-                    }
-                });
+                const cellsAroundCount = calcCellsAround(x, y);
                 if (cells[y][x]) {
-                    //filled
+                    // filled
                     if (cellsAroundCount >= ruleLMin && cellsAroundCount <= ruleLMax) {
                         newCells[y][x] = cellsAroundCount;
                     } else {
                         newCells[y][x] = 0;
                     }
                 } else {
-                    //empty
+                    // empty
                     if (cellsAroundCount >= ruleEMin && cellsAroundCount <= ruleEMax) {
                         newCells[y][x] = cellsAroundCount;
                     } else {
@@ -83,11 +87,6 @@ const sketch = () => {
             }
         }
         cells = newCells;
-    };
-
-    const reset = () => {
-        morphRules();
-        fillCells();
     };
 
     const fillCells = () => {
@@ -138,8 +137,13 @@ const sketch = () => {
         ruleEMax = random.rangeFloor(4, 7);
     };
 
+    const reset = () => {
+        morphRules();
+        fillCells();
+    };
+
     const reDraw = () => {
-        cells = new Array(mY).fill(null).map(i => new Array(mX).fill(0));
+        cells = new Array(mY).fill(null).map(() => new Array(mX).fill(0));
     };
 
     reset();
@@ -147,7 +151,7 @@ const sketch = () => {
     let steps = 0;
     let lastMorphStep = 0;
 
-    return ({ context, width, height, time }) => {
+    return ({ context, width, height }) => {
         tick();
         steps += 1;
         if (steps % 2 === 0) {
@@ -182,14 +186,12 @@ const sketch = () => {
         }
         if (cellsDrawCount === 0) {
             reset();
-        } else {
-            if (steps - lastMorphStep > Math.min(mY, mX)) {
-                morphRules();
-                palette = random.shuffle(palette);
-                reDraw();
-                fillCells();
-                lastMorphStep = steps;
-            }
+        } else if (steps - lastMorphStep > Math.min(mY, mX)) {
+            morphRules();
+            palette = random.shuffle(palette);
+            reDraw();
+            fillCells();
+            lastMorphStep = steps;
         }
     };
 };

@@ -15,10 +15,7 @@ const sketch = () => {
         context.fillRect(0, 0, width, height);
 
         const maxCircles = 500;
-        const maxCircleRadius = width * 0.01;
         const margin = width * 0.1;
-
-        let circles = [];
 
         for (let i = 0; i < maxCircles; i += 1) {
             context.beginPath();

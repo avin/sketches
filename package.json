@@ -1,18 +1,42 @@
 {
-  "name": "sketches",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node scripts/build.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "canvas-sketch": "^0.2.0",
-    "canvas-sketch-util": "^1.6.0",
-    "nice-color-palettes": "^2.0.0"
-  }
+    "name": "sketches",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "node scripts/build.js",
+        "prettier": "prettier-eslint --write \"src/**/*.{js,json,css}\"",
+        "lint": "eslint src/**/*.js"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "linters": {
+            "src/**/*.{js}": [
+                "prettier-eslint --write",
+                "git add"
+            ]
+        },
+        "concurrent": false
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "canvas-sketch": "^0.2.0",
+        "canvas-sketch-util": "^1.6.0",
+        "nice-color-palettes": "^2.0.0"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.0.1",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-config-prettier": "^4.0.0",
+        "eslint-plugin-import": "^2.16.0",
+        "husky": "^1.3.1",
+        "lint-staged": "^8.1.4",
+        "prettier-eslint-cli": "^4.7.1"
+    }
 }

@@ -1,6 +1,5 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
-import { lerp } from 'canvas-sketch-util/math';
 import palettes from 'nice-color-palettes';
 
 const settings = {
@@ -68,19 +67,18 @@ const sketch = () => {
             context.closePath();
             context.fillStyle = p.color;
             context.fill();
-            //context.stroke();
         }
 
         odd = true;
 
-        for (let y = 0; y < lines.length - 1; y++) {
+        for (let y = 0; y < lines.length - 1; y+=1) {
             odd = !odd;
             const dotLine = [];
-            for (let i = 0; i < lines[y].length; i++) {
+            for (let i = 0; i < lines[y].length; i+=1) {
                 dotLine.push(odd ? lines[y][i] : lines[y + 1][i]);
                 dotLine.push(odd ? lines[y + 1][i] : lines[y][i]);
             }
-            for (let i = 0; i < dotLine.length - 2; i++) {
+            for (let i = 0; i < dotLine.length - 2; i+=1) {
                 drawTriangle(dotLine[i]);
             }
         }

@@ -1,6 +1,5 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
-import palettes from 'nice-color-palettes';
 
 const settings = {
     dimensions: [2048, 2048],
@@ -8,13 +7,12 @@ const settings = {
 
 const sketch = () => {
     const fillStyle = 'hsl(0, 0%, 98%)';
-    const palette = random.pick(palettes);
 
     const checkCirclesCollision = (circle1, circle2) => {
         const { x: x1, y: y1, radius: radius1 } = circle1;
         const { x: x2, y: y2, radius: radius2 } = circle2;
 
-        const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const distance = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
 
         return distance <= radius1 + radius2;
     };
@@ -26,7 +24,7 @@ const sketch = () => {
         const maxCircles = 150;
         const margin = width * 0.1;
 
-        let circles = [];
+        const circles = [];
 
         // debugger;
         // Generate circles
