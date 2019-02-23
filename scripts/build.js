@@ -28,8 +28,10 @@ fs.readdir(srcFolder, (err, files) => {
     let linksList = '';
 
     files.forEach(file => {
-        const code = execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --dir ${buildFolder}`);
-        linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
+        if (file.match(/\.js$/)) {
+            execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --dir ${buildFolder}`);
+            linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
+        }
     });
 
     fs.writeFileSync(`${buildFolder}/index.html`, indexHtml.replace('{{LINKS}}', linksList));
