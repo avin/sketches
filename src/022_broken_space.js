@@ -45,12 +45,12 @@ const sketch = ({ width, height }) => {
         let ri;
         let lowerDist;
         lines.forEach(eLine => {
-            i = findSegmentIntersection([
+            i = findSegmentIntersection(
                 [eLine.p1[0], eLine.p1[1]],
                 [eLine.p2[0], eLine.p2[1]],
                 [newLine.p1[0], newLine.p1[1]],
-                [newLine.p2[0], newLine.p2[1]],
-            ]);
+                [newLine.p2[0], newLine.p2[1]]
+            );
 
             if (i) {
                 const dist = pointsDistance(newLine.p1, i);
