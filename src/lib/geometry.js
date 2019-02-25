@@ -54,3 +54,15 @@ export function findSegmentIntersection(p1, p2, p3, p4) {
 export function pointsDistance(p1, p2) {
     return Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
 }
+
+/**
+ * Length of segment
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @returns {number}
+ */
+export function lineLength([x1, y1], [x2, y2]) {
+    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+}
