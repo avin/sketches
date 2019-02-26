@@ -1,7 +1,6 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
 import { lerp } from 'canvas-sketch-util/math';
-import { rope } from './lib/shape';
 import WebCam from './lib/webcam';
 import { getLuminance } from './lib/color';
 
@@ -23,24 +22,11 @@ const sketch = async ({ width, height }) => {
     const cam = new WebCam();
     await cam.start();
 
-    return ({ context, width, height, time }) => {
+    return ({ context, width, height }) => {
         context.fillStyle = `#eff3f4`;
         context.fillRect(0, 0, width, height);
 
         context.lineWidth = height * 0.002;
-        context.fillStyle = '#F9627D';
-
-        let coords = [];
-
-        let k = 0;
-        for (let i = 180; i > 0; i -= 0.01) {
-            k += 0.001;
-            coords.push([
-                ((Math.cos(i + time * 10) / 10) * k) / 2 + 0.5,
-                ((Math.sin(i + time * 10) / 10) * k) / 2 + 0.5,
-                Math.sqrt(k) * 2,
-            ]);
-        }
 
         const camImageData = cam.getImageData();
 
@@ -59,7 +45,7 @@ const sketch = async ({ width, height }) => {
                 const l = getLuminance(r, g, b);
 
                 context.fillStyle = `rgba(0,0,0,${l})`;
-                context.fillRect(sx(x), sy(y), width*step, width*step);
+                context.fillRect(sx(x), sy(y), width * step, width * step);
             }
         }
     };
