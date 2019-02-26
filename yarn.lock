@@ -453,6 +453,11 @@ chardet@^0.4.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
   integrity sha1-tUc7M9yXxCTl2Y3IfVXU2KKci/I=
 
+chroma-js@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/chroma-js/-/chroma-js-2.0.3.tgz#2521d4f80c4e786e00064c4a62824e38ff6557c4"
+  integrity sha512-2kTvZZOFSV1O81/rm99t9vmkh9jQxsHqsRRoZevDVz/VCC3yKMyPuMK8M5yHG+UMg2tV6cRoqtZtgcD92udcBw==
+
 ci-info@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
@@ -629,11 +634,6 @@ cross-spawn@^6.0.0:
     semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
-
-culori@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/culori/-/culori-0.7.4.tgz#cb7f8d007b482524a7150e198f849c3e74e7bd6e"
-  integrity sha512-nBfDEnr+tdL6VfJ33SjGON+tc5dEfJ9Bij/9Vf/3OHvnxpPmmitBdjJoTdarzT9eKpZhIqCTI8cyaN6xX2/6zg==
 
 d3-delaunay@^4.1.5:
   version "4.1.5"

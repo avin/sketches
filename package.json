@@ -28,7 +28,7 @@
     "dependencies": {
         "canvas-sketch": "^0.2.0",
         "canvas-sketch-util": "^1.6.0",
-        "culori": "^0.7.4",
+        "chroma-js": "^2.0.3",
         "d3-delaunay": "^4.1.5",
         "mathjs": "^5.5.0",
         "nice-color-palettes": "^2.0.0"
