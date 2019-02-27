@@ -152,18 +152,18 @@ const sketch = async ({ width, height }) => {
         context.fillRect(0, 0, width, height);
 
         context.translate(width / 2, height / 2);
-        const kLW = width*0.005
+        const kLW = width * 0.005;
 
         branches.forEach(points => {
             const generation = points[0].generation;
 
             context.beginPath();
             context.strokeStyle = 'hsla(0,0%,10%,0.75)';
-            context.lineWidth = Math.max(kLW/10, kLW/(Math.sqrt(generation)));
+            context.lineWidth = Math.max(kLW / 10, kLW / Math.sqrt(generation));
             points.forEach((point, idx) => {
                 if (idx !== 0) {
                     context.beginPath();
-                    context.lineWidth = Math.max(context.lineWidth - kLW/40, kLW/10);
+                    context.lineWidth = Math.max(context.lineWidth - kLW / 40, kLW / 10);
                     context.moveTo(sx(points[idx - 1].x), sy(points[idx - 1].y));
                     context.lineTo(sx(point.x), sy(point.y));
                     context.stroke();
