@@ -7,8 +7,8 @@ const seed = random.getRandomSeed();
 random.setSeed(seed);
 
 const settings = {
-    dimensions: [2048, 2048],
-    animate: false,
+    dimensions: [1024, 1024],
+    animate: true,
 };
 
 const circeIntersectWithCircles = (circle, anotherCircles) => {
@@ -141,24 +141,29 @@ const sketch = async ({ width, height }) => {
         }
     };
 
-    for (let i = 0; i < Math.PI * 2; i += (Math.PI * 2) / 9) {
+    for (let i = 0; i < Math.PI * 2; i += Math.PI * 2 / 9) {
         const angle = Math.atan2(Math.sin(i) / 10, Math.cos(i) / 10);
 
         makeBranch({ x: Math.cos(i) / 10, y: Math.sin(i) / 10, r: 0.02, angle });
     }
 
-    return ({ context, width, height }) => {
+    return ({ context, width, height, time }) => {
         context.fillStyle = 'hsl(0, 0%, 98%)';
         context.fillRect(0, 0, width, height);
 
+        context.lineCap = 'round';
+
         context.translate(width / 2, height / 2);
+
+        context.rotate(time / 20);
+
         const kLW = width * 0.005;
 
-        branches.forEach(points => {
+        branches.forEach((points, idx) => {
             const generation = points[0].generation;
 
             context.beginPath();
-            context.strokeStyle = 'hsla(0,0%,10%,0.75)';
+            context.strokeStyle = 'hsl(0,0%,20%)';
             context.lineWidth = Math.max(kLW / 10, kLW / Math.sqrt(generation));
             points.forEach((point, idx) => {
                 if (idx !== 0) {
@@ -178,7 +183,7 @@ const sketch = async ({ width, height }) => {
 
                 context.beginPath();
                 context.fillStyle = `#f4313d`;
-                context.arc(sx(point.x), sy(point.y), sx(0.01), 0, Math.PI * 2, false);
+                context.arc(sx(point.x), sy(point.y), sx(Math.cos(time*5) * 0.002 + 0.01), 0, Math.PI * 2, false);
                 context.fill();
             }
         });
