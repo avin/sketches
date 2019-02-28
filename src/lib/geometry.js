@@ -1,3 +1,5 @@
+import pointInsidePolygon from 'point-in-polygon';
+
 /**
  * Get vectors intersection
  * @param p1
@@ -80,7 +82,14 @@ export function getPointCoordsByAngleAndDistance(angle, distance, initPoint = [0
     return [initPoint[0] + xC, initPoint[1] + yC];
 }
 
-export function isCircleInCircle(c1, c2) {
+/**
+ * Determine if circle is fully places in another one
+ * @param c1
+ * @param c2
+ * @param auto - automatic set smaller circle on first place
+ * @returns {boolean}
+ */
+export function isCircleInCircle(c1, c2, auto = false) {
     let x0;
     let y0;
     let r0;
@@ -88,7 +97,7 @@ export function isCircleInCircle(c1, c2) {
     let y1;
     let r1;
 
-    if (c2.r1 >= c1.r1) {
+    if (!auto || c2.r1 >= c1.r1) {
         [x0, y0, r0] = c1;
         [x1, y1, r1] = c2;
     } else {
@@ -166,4 +175,48 @@ export function twoCirclesIntersection([x0, y0, r0], [x1, y1, r1], getCoordinate
     const yiPrime = y2 - ry;
 
     return [xi, xiPrime, yi, yiPrime];
+}
+
+export function circeIntersectWithCircles(circle, anotherCircles) {
+    let intersect = false;
+    for (let i = 0; i < anotherCircles.length; i += 1) {
+        const aCircle = anotherCircles[i];
+        intersect =
+            intersect ||
+            twoCirclesIntersection([circle.x, circle.y, circle.r], [aCircle.x, aCircle.y, aCircle.r], false) ||
+            isCircleInCircle([circle.x, circle.y, circle.r], [aCircle.x, aCircle.y, aCircle.r], true);
+        if (intersect) {
+            break;
+        }
+    }
+    return intersect;
+}
+
+/**
+ * Check circle is in polygon
+ * @param cx
+ * @param cy
+ * @param cr
+ * @param polygon
+ * @returns {boolean}
+ */
+export function circleInPolygon([cx, cy, cr], polygon) {
+    // Check center inside first
+    if (!pointInsidePolygon([cx, cy], polygon)) {
+        return false;
+    }
+
+    // Get 7 points of contour and check them
+    for (let angle = -Math.PI * 2; angle < Math.PI; angle += Math.PI / 4) {
+        const xC = cr * Math.cos(angle);
+        const yC = cr * Math.sin(angle);
+
+        const p = [xC + cx, yC + cy];
+
+        if (!pointInsidePolygon(p, polygon)) {
+            return false;
+        }
+    }
+
+    return true;
 }

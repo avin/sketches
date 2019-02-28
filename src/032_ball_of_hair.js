@@ -18,7 +18,7 @@ const circeIntersectWithCircles = (circle, anotherCircles) => {
         intersect =
             intersect ||
             twoCirclesIntersection([circle.x, circle.y, circle.r], [aCircle.x, aCircle.y, aCircle.r], false) ||
-            isCircleInCircle([circle.x, circle.y, circle.r], [aCircle.x, aCircle.y, aCircle.r]);
+            isCircleInCircle([circle.x, circle.y, circle.r], [aCircle.x, aCircle.y, aCircle.r], true);
         if (intersect) {
             break;
         }
