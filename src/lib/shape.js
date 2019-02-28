@@ -22,11 +22,10 @@ export function rope(coords) {
         let angle;
 
         if (idx === 0) {
-            angle = Math.atan2(p[1]-pB[1], p[0]-pB[0]); // radians
+            angle = Math.atan2(p[1] - pB[1], p[0] - pB[0]); // radians
         } else {
             angle = Math.atan2(pB[1] - p[1], pB[0] - p[0]); // radians
         }
-
 
         [-(Math.PI / 2), -(Math.PI / 2) * 3].forEach((rotate, idx) => {
             const xC = p[2] * Math.cos(angle + rotate);
@@ -50,12 +49,17 @@ export function circleTree({
     angle = -Math.PI / 2,
 
     maxTriesFindNewPoint = 3,
-    tension = 1.1,
+    tension = 2,
+    newBranchTension = 2,
     maxGenerations = 8,
     minRadius = 0.005,
     reduceRadiusFactor = 0.95,
     maxBends = 100,
+    subTreesFromNode = 5,
     limitPolygon,
+    reduceRadiusOnFail = false,
+    newPointSearchAngel = Math.PI / 6,
+    newBranchSearchAngel = Math.PI / 3,
 } = {}) {
     let allPoints = [];
     const branches = [];
@@ -85,14 +89,12 @@ export function circleTree({
                 while (!foundPoint && tries < maxTriesFindNewPoint && bPoint) {
                     tries += 1;
 
-                    const rad = random.range(angle - 0.5, angle + 0.5);
-
+                    const rad = random.range(angle - newPointSearchAngel, angle + newPointSearchAngel);
                     const coords = getPointCoordsByAngleAndDistance(rad, bPoint.r * tension, [bPoint.x, bPoint.y]);
-
                     point = {
                         x: coords[0],
                         y: coords[1],
-                        r: bPoint.r * reduceRadiusFactor,
+                        r: bPoint.r * reduceRadiusFactor - ((1 - 1 / tries) * bPoint.r) / 5,
                         generation,
                         angle: rad,
                     };
@@ -123,19 +125,20 @@ export function circleTree({
                 }
 
                 // From N-th node create sub branches
-                if (i > 5) {
+                if (i > subTreesFromNode) {
                     tries = 0;
                     foundPoint = false;
                     while (!foundPoint && tries < maxTriesFindNewPoint && bPoint) {
                         tries += 1;
-                        const rad = random.range(angle - Math.PI / 3, angle + Math.PI / 3);
 
-                        const coords = getPointCoordsByAngleAndDistance(rad, bPoint.r * 1.5, [bPoint.x, bPoint.y]);
-
+                        const rad = random.range(angle - newBranchSearchAngel, angle + newBranchSearchAngel);
+                        const coords = getPointCoordsByAngleAndDistance(rad, bPoint.r * newBranchTension, [bPoint.x, bPoint.y]);
                         point = {
                             x: coords[0],
                             y: coords[1],
-                            r: bPoint.r / 1.05,
+                            r:
+                                bPoint.r * reduceRadiusFactor -
+                                (reduceRadiusOnFail ? ((1 - 1 / tries) * bPoint.r) / 2 : 0),
                         };
 
                         const comparingPoints = allPoints.filter(p => {

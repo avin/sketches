@@ -21,12 +21,17 @@ const sketch = async ({ width, height }) => {
     const tree = circleTree({
         x: 0.5,
         y: 1,
-        r: 0.02,
+        r: 0.025,
         angle: -Math.PI / 2,
-        tension: 2,
+        tension: 1.8,
+        newBranchTension: 1.5,
         limitPolygon: [[0, 0], [1, 0], [1, 1], [0, 1]],
-        maxGenerations: 12,
+        maxGenerations: 40,
         reduceRadiusFactor: 0.98,
+        maxBends: 10,
+        maxTriesFindNewPoint: 3,
+        subTreesFromNode:3,
+        reduceRadiusOnFail: false
     });
 
     return ({ context, width, height, time, playhead }) => {
