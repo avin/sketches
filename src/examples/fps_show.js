@@ -1,5 +1,4 @@
 import canvasSketch from 'canvas-sketch';
-import { getPointCoordsByAngleAndDistance, isCircleInCircle, twoCirclesIntersection } from './lib/geometry';
 import Stats from 'stats.js';
 
 const settings = {
