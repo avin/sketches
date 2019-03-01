@@ -1,6 +1,9 @@
 module.exports = {
     parser: 'babel-eslint',
     extends: ['airbnb-base', 'prettier'],
+    "env": {
+        "browser": true,
+    },
     rules: {
         indent: ['error', 4, { SwitchCase: 1 }],
         'max-len': ['error', 120],
