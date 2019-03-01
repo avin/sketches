@@ -1,5 +1,4 @@
 import canvasSketch from 'canvas-sketch';
-import Stats from 'stats.js';
 import random from 'canvas-sketch-util/random';
 import { lerp } from 'canvas-sketch-util/math';
 
@@ -23,9 +22,6 @@ const sketch = async ({ width, height }) => {
 
     const sx = v => lerp(margin, width - margin, v);
     const sy = v => lerp(margin, height - margin, v);
-
-    const stats = new Stats();
-    document.body.appendChild(stats.dom);
 
     const pointRadius = width * 0.001;
     const pointRadiusS = pointRadius / width;
@@ -80,9 +76,7 @@ const sketch = async ({ width, height }) => {
 
     let endedProcess = false;
 
-    return ({ context, width, height, time, playhead }) => {
-        stats.begin();
-
+    return ({ context, time }) => {
         context.drawImage(backGroundCanvas, 0, 0);
 
         context.fillStyle = 'hsl(0, 0%, 98%)';
@@ -146,8 +140,6 @@ const sketch = async ({ width, height }) => {
                 }
             }
         }
-
-        stats.end();
     };
 };
 
