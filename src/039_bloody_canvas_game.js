@@ -1,6 +1,5 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
-import { lerp } from 'canvas-sketch-util/math';
 
 const browserSetup = canvas => {
     canvas.addEventListener('click', () => {
@@ -11,18 +10,23 @@ const browserSetup = canvas => {
     });
 };
 
-// create web audio api context
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-function playSound(frequency, type, x) {
+function playSound(frequency, type, x, volume = 1) {
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.connect(g);
     o.type = type;
     g.connect(audioCtx.destination);
     o.frequency.value = frequency;
-    o.start(0);
+    o.start();
+    g.gain.value = volume;
     g.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + x);
+
+    setTimeout(() => {
+        o.stop();
+        o.disconnect();
+    }, 500);
 }
 
 class Collection {
@@ -77,6 +81,7 @@ class Bullet {
             this[key] = option;
         }
 
+        this.color = random.pick(['#4b86b4', '#adcbe3', '#63ace5']);
         this.size = this.baseOptions.fieldSize / 100;
         this.speed = this.baseOptions.fieldSize / 100 * this.initSpeedFactor;
     }
@@ -140,7 +145,7 @@ class Bullet {
         ctx.stroke();
 
         // Body
-        ctx.fillStyle = '#AAA';
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(x, y, this.size / 2, 0, Math.PI * 2);
         ctx.fill();
@@ -163,9 +168,10 @@ class Enemy {
         }
 
         this.live = true;
-        this.size = this.baseOptions.fieldSize / 20;
+        this.sizeFactor = random.range(20, 30);
+        this.size = this.baseOptions.fieldSize * (1 / this.sizeFactor);
         this.particleSize = this.baseOptions.fieldSize / 100;
-        this.speed = this.baseOptions.fieldSize / 500;
+        this.speed = this.baseOptions.fieldSize / (this.sizeFactor * 10);
 
         this.moveAngle = Math.PI / 2;
     }
@@ -180,7 +186,7 @@ class Enemy {
             this.y += Math.sin(this.moveAngle) * this.speed;
 
             const distanceToShip = Math.sqrt((this.x - ship.x) ** 2 + (this.y - ship.y) ** 2);
-            if (distanceToShip < this.size/2 + ship.size/2) {
+            if (distanceToShip < this.size / 2 + ship.size / 2) {
                 ship.explode();
                 this.destroy();
             }
@@ -214,15 +220,21 @@ class Enemy {
 
         if (this.live) {
             // Body
-            ctx.fillStyle = 'hsl(0, 80%,50%)';
-            ctx.lineWidth = this.size / 20;
+            ctx.fillStyle = '#ff6f69';
+            ctx.lineWidth = this.size / 30;
             ctx.beginPath();
             ctx.arc(x, y, this.size / 2, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
+
+            // Track
+            backgroundContext.fillStyle = 'hsla(0,0%,98%,0.1)';
+            backgroundContext.beginPath();
+            backgroundContext.arc(x, y, this.size / 2, 0, Math.PI * 2);
+            backgroundContext.fill();
         } else {
-            this.particles.forEach(({ x, y, size }) => {
-                ctx.fillStyle = 'hsl(0, 100%,50%)';
+            this.particles.forEach(({ x, y, size, c }) => {
+                ctx.fillStyle = c;
                 ctx.beginPath();
                 ctx.arc(x, y, size / 2, 0, Math.PI * 2);
                 ctx.fill();
@@ -231,16 +243,17 @@ class Enemy {
     }
 
     explode() {
-        playSound(random.pick([349.2+100, 392.0+100, 440.0+100]), 'sine', 0.12);
+        playSound(random.pick([349.2 + 100, 392.0 + 100, 440.0 + 100]), 'sine', 0.12);
 
         this.live = false;
         this.particles = [];
-        for (let i = 0; i < 50; i += 1) {
+        for (let i = 0; i < this.sizeFactor * 2; i += 1) {
             const particle = {
                 x: this.x + random.range(-this.size, this.size),
                 y: this.y + random.range(-this.size, this.size),
                 speed: random.range(5, 10),
                 size: this.particleSize * random.range(0.5, 1.5),
+                c: `hsl(0, 100%,${random.range(40, 60)}%)`,
             };
 
             particle.a = Math.atan2(particle.y - this.y, particle.x - this.x);
@@ -287,8 +300,20 @@ class Ship {
     }
 
     fire() {
+        if (!this.game.running) {
+            this.game.running = true;
+            playSound(random.pick([100]), 'sine', 1, 0.5);
+            return;
+        }
+
+        if (this.dead) {
+            return;
+        }
+
         const { baseOptions, game } = this;
-        playSound(random.pick([698.5, 784.0, 880.0]), 'triangle', 0.16);
+        // playSound(random.pick([698.5, 784.0, 880.0]), 'sawtooth', 0.08);
+        playSound(random.pick([311.1, 370.0, 415.3]), 'sawtooth', 0.1, 0.5);
+        playSound(random.pick([155.6, 185.0, 207.7]), 'sine', 0.2, 0.5);
 
         for (let i = 0; i < 8; i += 1) {
             const bullet = new Bullet({
@@ -424,7 +449,7 @@ class Ship {
         }
 
         // Body
-        context.fillStyle = `hsl(200, 80%,50%)`;
+        context.fillStyle = `#96ceb4`;
         context.lineWidth = this.size / 10;
         context.beginPath();
         context.arc(x, y, this.size / 2, 0, Math.PI * 2);
@@ -489,7 +514,7 @@ const sketch = async ({ canvas, context, width, height }) => {
     const fieldSize = Math.min(width, height);
 
     const game = {
-        running: true,
+        running: false,
     };
 
     const baseOptions = {
@@ -546,12 +571,12 @@ const sketch = async ({ canvas, context, width, height }) => {
         game.time = time;
 
         backgroundContext.drawImage(gridCanvas, 0, 0);
-        backgroundContext.fillStyle = 'hsla(0, 0%, 98%, 0.01)';
+        backgroundContext.fillStyle = `hsla(0, 0%, 98%, 0.01)`;
         backgroundContext.fillRect(0, 0, width, height);
         context.drawImage(backGroundCanvas, 0, 0);
 
         if (game.running) {
-            if (game.enemies.size < Math.min(Math.floor((time - game.ship.deadTime)/3)+1, 20)) {
+            if (game.enemies.size < Math.min(Math.floor((time - game.ship.deadTime) / 3) + 1, 20)) {
                 createEnemy();
             }
 
@@ -567,6 +592,10 @@ const sketch = async ({ canvas, context, width, height }) => {
 
             game.ship.update();
             game.ship.draw();
+        } else {
+            context.font = '90px Arial';
+            context.textAlign = 'center';
+            context.fillText('Click to start', width / 2, height / 2);
         }
     };
 };
