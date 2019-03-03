@@ -35,7 +35,7 @@ const sketch = async ({ width, height }) => {
             const line = [];
 
             line.push([0.5, 0.5]);
-            for (let j = 0.01; j < 0.5; j += 0.001) {
+            for (let j = 0.01; j < 0.5; j += 0.1) {
                 line.push([
                     Math.cos(i + Math.cos(time + i) + j*20) * j + 0.5,
                     Math.sin(i + Math.cos(time + i) + j*20) * j + 0.5,
