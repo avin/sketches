@@ -14,7 +14,6 @@ const sketch = async ({ width, height, context }) => {
     const sx = v => lerp(margin, width - margin, v);
     const sy = v => lerp(margin, height - margin, v);
 
-    const points = [[0, 0], [1, 0], [1, 1], [0, 1]];
     const directions = [[1, 0], [0, 1], [-1, 0], [0, -1]];
 
     context.fillStyle = 'hsl(0, 0%, 0%)';

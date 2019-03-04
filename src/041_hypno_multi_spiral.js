@@ -1,22 +1,10 @@
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
+import { drawLine } from './lib/ctx';
 
 const settings = {
     dimensions: [1024, 1024],
     animate: true,
-};
-
-const drawLine = (context, lineCoords) => {
-    context.beginPath();
-    for (let i = 0; i < lineCoords.length; i += 1) {
-        const p = lineCoords[i];
-        if (i === 0) {
-            context.moveTo(p[0], p[1]);
-        } else {
-            context.lineTo(p[0], p[1]);
-        }
-    }
-    context.stroke();
 };
 
 const sketch = async ({ width, height }) => {
