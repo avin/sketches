@@ -1,7 +1,6 @@
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
 import random from 'canvas-sketch-util/random';
-import Collection from './lib/collection';
 
 const settings = {
     dimensions: [1024, 1024],
@@ -13,8 +12,6 @@ const sketch = async ({ width, height }) => {
 
     const sx = v => lerp(margin, width - margin, v);
     const sy = v => lerp(margin, height - margin, v);
-
-    const stars = new Collection();
 
     const points = [];
     const max = 500;
@@ -31,7 +28,7 @@ const sketch = async ({ width, height }) => {
         context.fillStyle = 'hsla(0, 0%, 0%, 0.1)';
         context.fillRect(0, 0, width, height);
 
-        for (const [idx, { f, s, r, a }] of points.entries()) {
+        for (const { f, s, r, a } of points) {
             context.fillStyle = `hsla(0, 0%, 98%, ${a})`;
 
             const t = time / 3 + f;
