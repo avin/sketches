@@ -1,5 +1,6 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
+import Collection from './lib/collection';
 
 const browserSetup = canvas => {
     canvas.addEventListener('click', () => {
@@ -29,47 +30,7 @@ function playSound(frequency, type, x, volume = 1) {
     }, 500);
 }
 
-class Collection {
-    constructor() {
-        this.items = [];
-    }
 
-    /**
-     * Add item to collection
-     * @param item
-     */
-    add(item) {
-        this.items.push(item);
-    }
-
-    /**
-     * Add alias
-     * @param args
-     */
-    append(...args) {
-        this.add(...args);
-    }
-
-    /**
-     * Remove item from collection
-     * @param item
-     */
-    remove(item) {
-        this.items = this.items.filter(i => i !== item);
-    }
-
-    /**
-     * Remove alias
-     * @param args
-     */
-    delete(...args) {
-        this.remove(...args);
-    }
-
-    get size() {
-        return this.items.length;
-    }
-}
 
 // ======================================
 // ============= Bullet =================
