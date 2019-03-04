@@ -20,7 +20,7 @@ const sketch = async ({ width, height }) => {
     const max = 500;
     for (let i = 0; i < max; i += 1) {
         points.push({
-            f: random.range(0, Math.PI),
+            f: random.range(-Math.PI, Math.PI),
             s: random.range(-0.008, 0.008),
             r: random.range(1, 3),
             a: random.range(0.3, 0.95),
@@ -34,18 +34,13 @@ const sketch = async ({ width, height }) => {
         for (const [idx, { f, s, r, a }] of points.entries()) {
             context.fillStyle = `hsla(0, 0%, 98%, ${a})`;
 
-            const c = 0.5;
-            const d = Math.tan(-time / 10 + f);
+            const t = time / 3 + f;
 
-            let p = Math.sqrt(Math.abs(d));
-            if (d < 0) {
-                p *= -1;
-            }
+            const scale = 2 / (3 - Math.cos(2 * t));
+            const x = scale * Math.cos(t);
+            const y = (scale * Math.sin(2 * t)) / 2;
 
-            const x = c * ((p + p ** 3) / (1 + p ** 4)) + 0.5;
-            const y = c * ((p - p ** 3) / (1 + p ** 4)) + 0.5 + s;
-
-            context.fillRect(sx(x), sy(y), r, r);
+            context.fillRect(sx(x / 2 + 0.5), sy(y / 2 + 0.5 + s), r, r);
         }
     };
 };
