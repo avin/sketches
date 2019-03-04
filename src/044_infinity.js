@@ -8,7 +8,7 @@ const settings = {
     animate: true,
 };
 
-const sketch = async ({ width, height, context }) => {
+const sketch = async ({ width, height }) => {
     const margin = 0;
 
     const sx = v => lerp(margin, width - margin, v);
