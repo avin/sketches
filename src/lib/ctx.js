@@ -1,4 +1,4 @@
-export const drawLine = (context, lineCoords) => {
+export const drawLine = (context, lineCoords, closePath = false) => {
     context.beginPath();
     for (let i = 0; i < lineCoords.length; i += 1) {
         const p = lineCoords[i];
@@ -7,6 +7,9 @@ export const drawLine = (context, lineCoords) => {
         } else {
             context.lineTo(p[0], p[1]);
         }
+    }
+    if (closePath) {
+        context.closePath();
     }
     context.stroke();
 };
