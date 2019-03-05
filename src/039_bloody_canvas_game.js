@@ -262,6 +262,7 @@ class Ship {
 
     fire() {
         if (!this.game.running) {
+            this.game.ship.deadTime = this.game.time;
             this.game.running = true;
             playSound(random.pick([100]), 'sine', 1, 0.5);
             return;
@@ -537,7 +538,7 @@ const sketch = async ({ canvas, context, width, height }) => {
         context.drawImage(backGroundCanvas, 0, 0);
 
         if (game.running) {
-            if (game.enemies.size < Math.min(Math.floor((time - game.ship.deadTime) / 3) + 1, 20)) {
+            if (game.enemies.size < Math.min(Math.floor((time - game.ship.deadTime) / 3) + 1, 15)) {
                 createEnemy();
             }
 
@@ -554,9 +555,14 @@ const sketch = async ({ canvas, context, width, height }) => {
             game.ship.update();
             game.ship.draw();
         } else {
-            context.font = '90px Arial';
+            context.save();
+            context.translate(width / 2, height / 2);
+            context.rotate(Math.cos(time * 5) / 5);
+            context.font = 'bold 90px Arial';
             context.textAlign = 'center';
-            context.fillText('Click to start', width / 2, height / 2);
+            context.fillStyle = 'hsl(0, 0%, 20%)';
+            context.fillText('Click to start', 0, 0);
+            context.restore();
         }
     };
 };
