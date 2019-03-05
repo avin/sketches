@@ -104,7 +104,7 @@ const sketch = async ({ width, height }) => {
         circles.forEach((circle, idx) => {
             const circleCoords = circle.map(i => [sx(i[0]), sy(i[1])]);
 
-            context.strokeStyle = `hsl(${vol * 2 + idx * 10 + time*30}, 50%,50%)`;
+            context.strokeStyle = `hsl(${vol * 2 + idx * 10 + time * 30}, 50%,50%)`;
 
             drawLine(context, circleCoords, true);
         });

@@ -29,7 +29,7 @@ fs.readdir(srcFolder, (err, files) => {
 
     files.forEach(file => {
         if (file.match(/\.js$/)) {
-            execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --dir ${buildFolder}`);
+            execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --no-compress --dir ${buildFolder}`);
             linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
         }
     });
