@@ -31,6 +31,7 @@
         "d3-array": "^2.0.3",
         "d3-delaunay": "^4.1.5",
         "howler": "^2.1.1",
+        "lodash": "^4.17.11",
         "nice-color-palettes": "^2.0.0",
         "point-in-polygon": "^1.0.1",
         "soundcloud-badge": "^1.1.0",

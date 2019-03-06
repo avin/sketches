@@ -1,6 +1,7 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
 import Collection from './lib/collection';
+import { playSound } from './lib/sound';
 
 const browserSetup = canvas => {
     canvas.addEventListener('click', () => {
@@ -12,25 +13,6 @@ const browserSetup = canvas => {
 };
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-function playSound(frequency, type, x, volume = 1) {
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.connect(g);
-    o.type = type;
-    g.connect(audioCtx.destination);
-    o.frequency.value = frequency;
-    o.start();
-    g.gain.value = volume;
-    g.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + x);
-
-    setTimeout(() => {
-        o.stop();
-        o.disconnect();
-    }, 500);
-}
-
-
 
 // ======================================
 // ============= Bullet =================
