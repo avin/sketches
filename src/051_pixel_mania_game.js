@@ -176,14 +176,14 @@ const sketch = async ({ width, height, canvas }) => {
 
                 // Move cells Y
                 if (cell.pixelY < cell.y * cellSize) {
-                    cell.pixelY += Math.max(Math.sqrt(cell.y * cellSize - cell.pixelY), 0.1);
+                    cell.pixelY += Math.sqrt(cell.y * cellSize - cell.pixelY);
                 } else {
                     cell.pixelY = cell.y * cellSize;
                 }
 
                 // Move cells X
                 if (cell.pixelX > cell.x * cellSize) {
-                    cell.pixelX -= Math.max(Math.sqrt(cell.pixelX - cell.x * cellSize), 0.1);
+                    cell.pixelX -= Math.sqrt(cell.pixelX - cell.x * cellSize);
                 } else {
                     cell.pixelX = cell.x * cellSize;
                 }
