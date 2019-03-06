@@ -25,8 +25,8 @@ const sketch = async ({ width, height, canvas }) => {
 
     const reset = () => {
         score = 0;
-        for (let y = 0; y < maxY; y++) {
-            for (let x = 0; x < maxX; x++) {
+        for (let y = 0; y < maxY; y += 1) {
+            for (let x = 0; x < maxX; x += 1) {
                 set(matrix, [y, x], {
                     x,
                     y,
@@ -34,6 +34,23 @@ const sketch = async ({ width, height, canvas }) => {
                     pixelY: y * cellSize,
                     pride: random.rangeFloor(0, 4),
                 });
+            }
+        }
+    };
+
+    const findNeighbors = (cell, pride, expectCells = []) => {
+        expectCells.push(cell);
+
+        for (const offset of [[-1, 0], [0, -1], [1, 0], [0, 1]]) {
+            const neighborCoord = { x: cell.x + offset[0], y: cell.y + offset[1] };
+
+            if (!expectCells.find(i => i.x === neighborCoord.x && i.y === neighborCoord.y)) {
+                const neighborCell = get(matrix, [neighborCoord.y, neighborCoord.x]);
+
+                if (neighborCell && neighborCell.pride === pride) {
+                    const pride = neighborCell.pride;
+                    findNeighbors(neighborCell, pride, expectCells);
+                }
             }
         }
     };
@@ -59,25 +76,6 @@ const sketch = async ({ width, height, canvas }) => {
         return found;
     };
 
-    const findNeighbors = (cell, pride, expectCells = []) => {
-        expectCells.push(cell);
-
-        for (const offset of [[-1, 0], [0, -1], [1, 0], [0, 1]]) {
-            const neighborCoord = { x: cell.x + offset[0], y: cell.y + offset[1] };
-
-            if (expectCells.find(i => i.x === neighborCoord.x && i.y === neighborCoord.y)) {
-                continue;
-            }
-
-            const neighborCell = get(matrix, [neighborCoord.y, neighborCoord.x]);
-
-            if (neighborCell && neighborCell.pride === pride) {
-                const pride = neighborCell.pride;
-                findNeighbors(neighborCell, pride, expectCells);
-            }
-        }
-    };
-
     const cleanCells = cells => {
         score += cells.length ** 2;
 
@@ -86,9 +84,9 @@ const sketch = async ({ width, height, canvas }) => {
         }
 
         // Compress Y
-        for (let x = 0; x < maxX; x++) {
+        for (let x = 0; x < maxX; x += 1) {
             let column = [];
-            for (let y = 0; y < maxY; y++) {
+            for (let y = 0; y < maxY; y += 1) {
                 column.push(matrix[y][x]);
             }
             column = column.sort(cell => (cell.pride === undefined ? -1 : 1));
@@ -106,7 +104,7 @@ const sketch = async ({ width, height, canvas }) => {
                 emptyXes.push(x);
             }
         });
-        for (let y = 0; y < maxY; y++) {
+        for (let y = 0; y < maxY; y += 1) {
             let row = matrix[y];
             row = row.sort(cell => (emptyXes.includes(cell.x) ? -1 : 1));
             row = row.map((cell, idx) => {
@@ -117,8 +115,8 @@ const sketch = async ({ width, height, canvas }) => {
         }
 
         // Move to left side
-        for (let y = 0; y < maxY; y++) {
-            let row = matrix[y];
+        for (let y = 0; y < maxY; y += 1) {
+            const row = matrix[y];
             for (let x = 0; x < maxX; x += 1) {
                 const cell = row[x];
                 cell.x -= emptyXes.length;
@@ -171,9 +169,9 @@ const sketch = async ({ width, height, canvas }) => {
         context.fillStyle = 'hsla(0, 0%, 98%, 1)';
         context.fillRect(0, 0, width, height);
 
-        for (let y = 0; y < matrix.length; y++) {
+        for (let y = 0; y < matrix.length; y += 1) {
             const row = matrix[y];
-            for (let x = 0; x < row.length; x++) {
+            for (let x = 0; x < row.length; x += 1) {
                 const cell = row[x];
 
                 // Move cells Y
