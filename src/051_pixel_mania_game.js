@@ -80,7 +80,7 @@ const sketch = async ({ width, height, canvas }) => {
     };
 
     const cleanCells = cells => {
-        // highlightLines = [];
+        highlightLines = [];
         score += cells.length ** 2;
 
         for (const cell of cells) {
