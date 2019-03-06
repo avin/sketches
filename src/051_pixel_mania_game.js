@@ -11,6 +11,8 @@ const settings = {
 
 const colors = ['#556270', '#4ecdc4', '#c7f464', '#ff6b6b', '#c44d58'];
 
+const contour = [[[0, 0], [1, 0]], [[1, 0], [1, 1]], [[0, 0], [0, 1]], [[0, 1], [1, 1]]];
+
 const sketch = async ({ width, height, canvas }) => {
     const cellSize = width * 0.05;
 
@@ -18,6 +20,7 @@ const sketch = async ({ width, height, canvas }) => {
     let gameOver = true;
     let gameOverTime = -1;
     let globalTime = 0;
+    let highlightLines = [];
 
     const matrix = [];
     const maxY = Math.floor(width / cellSize);
@@ -77,6 +80,7 @@ const sketch = async ({ width, height, canvas }) => {
     };
 
     const cleanCells = cells => {
+        // highlightLines = [];
         score += cells.length ** 2;
 
         for (const cell of cells) {
@@ -160,6 +164,74 @@ const sketch = async ({ width, height, canvas }) => {
                 playSound(349.2 + foundCells.length * 50, 'sine', 0.12);
 
                 cleanCells(foundCells);
+
+                canvas.dispatchEvent(new Event('mousemove', e));
+            }
+        }
+    });
+
+    let prevMouseOverX;
+    let prevMouseOverY;
+    canvas.addEventListener('mousemove', e => {
+        if (gameOver) {
+            return;
+        }
+        const rect = e.target.getBoundingClientRect();
+        const kX = rect.width / width;
+        const kY = rect.height / height;
+        const x = Math.floor((e.clientX - rect.left) / (cellSize * kX));
+        const y = Math.floor((e.clientY - rect.top) / (cellSize * kY));
+
+        if (prevMouseOverX === x && prevMouseOverY === y) {
+            return;
+        }
+
+        prevMouseOverX = x;
+        prevMouseOverY = y;
+
+        highlightLines = [];
+        // Clean highlight
+        for (let y = 0; y < maxY; y += 1) {
+            for (let x = 0; x < maxX; x += 1) {
+                matrix[y][x].highlight = false;
+            }
+        }
+
+        const cell = get(matrix, [y, x]);
+
+        if (cell && cell.pride !== undefined) {
+            const pride = cell.pride;
+            const foundCells = [];
+            findNeighbors(cell, pride, foundCells);
+
+            if (foundCells.length > 1) {
+                foundCells.forEach(cell => {
+                    cell.highlight = true;
+                });
+            }
+        }
+
+        for (let y = 0; y < maxY; y += 1) {
+            for (let x = 0; x < maxX; x += 1) {
+                const cell = matrix[y][x];
+                if (cell.highlight) {
+                    for (const [b, e] of contour) {
+                        const line = [[cell.x + b[0], cell.y + b[1]], [cell.x + e[0], cell.y + e[1]]];
+                        const sameLineIndex = highlightLines.findIndex(hl => {
+                            return (
+                                hl[0][0] === line[0][0] &&
+                                hl[0][1] === line[0][1] &&
+                                hl[1][0] === line[1][0] &&
+                                hl[1][1] === line[1][1]
+                            );
+                        });
+                        if (sameLineIndex === -1) {
+                            highlightLines.push(line);
+                        } else {
+                            highlightLines = highlightLines.filter((_, idx) => idx !== sameLineIndex);
+                        }
+                    }
+                }
             }
         }
     });
@@ -196,6 +268,17 @@ const sketch = async ({ width, height, canvas }) => {
                 }
             }
         }
+
+        context.lineWidth = 1.5;
+        context.lineCap = 'butt';
+        context.strokeStyle = 'hsla(0,0%,0%, 0.5)';
+
+        highlightLines.forEach(hl => {
+            context.beginPath();
+            context.moveTo(hl[0][0] * cellSize, hl[0][1] * cellSize);
+            context.lineTo(hl[1][0] * cellSize, hl[1][1] * cellSize);
+            context.stroke();
+        });
 
         if (gameOver) {
             context.save();
