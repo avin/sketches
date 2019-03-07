@@ -29,13 +29,15 @@ const sketch = async ({ width, height }) => {
     }
 
     let lastTime = 0;
+    let rangeFrom = 1;
     return ({ context, width, height, time }) => {
-        stats.begin();
+        const beginTime = +new Date();
 
+        stats.begin();
         if (time - lastTime > 0.04) {
             lastTime = time;
 
-            for (let x = 0; x < width; x += random.range(1, 8)) {
+            for (let x = 0; x < width; x += random.range(rangeFrom, rangeFrom + 7)) {
                 dots.add({
                     x,
                     y: random.range(0, 50),
@@ -83,6 +85,14 @@ const sketch = async ({ width, height }) => {
         context.putImageData(imgData, 0, 0);
 
         stats.end();
+
+        const endTime = +new Date();
+
+        if (endTime - beginTime > 33) {
+            rangeFrom += 1;
+        } else {
+            rangeFrom = Math.max(rangeFrom-1, 1);
+        }
     };
 };
 
