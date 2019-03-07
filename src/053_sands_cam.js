@@ -21,7 +21,7 @@ const sketch = async ({ width, height }) => {
 
     const dots = new Collection();
 
-    for (let i = 0; i < 2000; i += 1) {
+    for (let i = 0; i < 5000; i += 1) {
         dots.add({
             x: random.range(0, width),
             y: random.range(0, height),
@@ -35,7 +35,7 @@ const sketch = async ({ width, height }) => {
         if (time - lastTime > 0.04) {
             lastTime = time;
 
-            for (let x = 0; x < width; x += random.range(1, 10)) {
+            for (let x = 0; x < width; x += random.range(1, 8)) {
                 dots.add({
                     x,
                     y: random.range(0, 50),
@@ -51,8 +51,8 @@ const sketch = async ({ width, height }) => {
         context.fillStyle = '#000';
 
         for (const dot of dots) {
-            const iy = Math.floor((camImageData.height * dot.y) / height);
-            const ix = Math.floor((camImageData.width * dot.x) / width);
+            const iy = Math.floor(camImageData.height * dot.y / height);
+            const ix = Math.floor(camImageData.width * dot.x / width);
 
             const pixelIdx = camImageData.width * 4 * iy + 4 * ix;
 
@@ -67,11 +67,20 @@ const sketch = async ({ width, height }) => {
             if (dot.y >= height) {
                 dots.remove(dot);
             }
-
-            if (dot.y > 0) {
-                context.fillRect(dot.x, dot.y, 1, 1);
-            }
         }
+
+        const imgData = context.getImageData(0, 0, width, height);
+        const data = imgData.data;
+
+        for (const dot of dots) {
+            const n = (~~dot.x + ~~dot.y * width) * 4;
+            data[n] = 0;
+            data[n + 1] = 0;
+            data[n + 2] = 0;
+            data[n + 3] = 255;
+        }
+
+        context.putImageData(imgData, 0, 0);
 
         stats.end();
     };
