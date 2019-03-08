@@ -13,3 +13,11 @@ export const drawLine = (context, lineCoords, closePath = false) => {
     }
     context.stroke();
 };
+
+export function setPixel(imgData, coord, color) {
+    const n = (~~coord[0] + ~~coord[1] * imgData.width) * 4;
+    imgData.data[n] = color[0];
+    imgData.data[n + 1] = color[1];
+    imgData.data[n + 2] = color[2];
+    imgData.data[n + 3] = color[3] === undefined ? 255 : color[3];
+}

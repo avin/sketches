@@ -154,8 +154,8 @@ export function twoCirclesIntersection([x0, y0, r0], [x1, y1, r1], getCoordinate
     const a = (r0 * r0 - r1 * r1 + d * d) / (2.0 * d);
 
     /* Determine the coordinates of point 2. */
-    const x2 = x0 + (dx * a) / d;
-    const y2 = y0 + (dy * a) / d;
+    const x2 = x0 + dx * a / d;
+    const y2 = y0 + dy * a / d;
 
     /* Determine the distance from point 2 to either of the
          * intersection points.
