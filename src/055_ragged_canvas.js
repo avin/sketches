@@ -14,6 +14,7 @@ const sketch = async ({ width, height, context, canvas }) => {
     let vertical = true;
 
     let sepLine;
+
     const makeSepLine = vertical => {
         sepLine = [];
         const k0 = random.range(size * 0.1, size * 0.9);
@@ -39,7 +40,6 @@ const sketch = async ({ width, height, context, canvas }) => {
     let bufCanvas = document.createElement('canvas');
     bufCanvas.width = size;
     bufCanvas.height = size;
-    // document.body.append(bufCanvas);
 
     const copyCanvas = () => {
         bufCanvas.getContext('2d').drawImage(canvas, 0, 0);
@@ -50,26 +50,36 @@ const sketch = async ({ width, height, context, canvas }) => {
     let prevSeparationTime = 0;
     let fillColor;
     let pC = 0;
+    let c = 0;
+    let cc = 90;
+    let cDiff = -1;
     const setFillColor = () => {
-        const c = pC + random.range(80, 180);
-        fillColor = `hsl(${c}, 50%,50%)`;
+        fillColor = `hsl(${random.range(0, 360)}, 100%,80%)`;
         pC = c;
     };
     setFillColor();
 
     return ({ context, time }) => {
-        if (time - prevSeparationTime > 0.5) {
+        if (time - prevSeparationTime > random.range(0.08, 0.3)) {
             vertical = !vertical;
             prevSeparationTime = time;
             setFillColor();
             makeSepLine(vertical);
             copyCanvas();
+            cc += cDiff;
+            if (cc < 40) {
+                cDiff = +1;
+                c += 60;
+            } else if (cc > 90) {
+                cDiff = -1;
+                c += 60;
+            }
         } else {
             context.fillStyle = fillColor;
             context.fillRect(0, 0, size, size);
         }
 
-        const move = (time - prevSeparationTime) * 200;
+        const move = (time - prevSeparationTime) * 400;
 
         if (vertical) {
             for (let i = 0; i < 2; i += 1) {
