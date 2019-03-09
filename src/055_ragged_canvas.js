@@ -22,12 +22,12 @@ const sketch = async ({ context, canvas }) => {
         const k1 = random.range(size * 0.1, size * 0.9);
 
         if (vertical) {
-            for (let i = 0; i < size; i += 10) {
+            for (let i = 0; i <= size+10; i += 10) {
                 const x = k0 + (k1 - k0) * (i / size);
                 sepLine.push([x + random.range(-5, +5), i]);
             }
         } else {
-            for (let i = 0; i < size; i += 10) {
+            for (let i = 0; i <= size+10; i += 10) {
                 const y = k0 + (k1 - k0) * (i / size);
                 sepLine.push([i, y + random.range(-5, +5)]);
             }
