@@ -14,7 +14,7 @@ export function setDrawPolygon(context, lineCoords, closePath = false) {
 }
 
 export const drawLine = (context, lineCoords, closePath = false) => {
-    setDrawPolygon(context, lineCoords, (closePath = false));
+    setDrawPolygon(context, lineCoords, closePath);
     context.stroke();
 };
 
