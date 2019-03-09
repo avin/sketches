@@ -1,15 +1,16 @@
 import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
-import { lerp } from 'canvas-sketch-util/math';
 import { drawLine, setDrawPolygon } from './lib/ctx';
 
+const size = 1024;
+
 const settings = {
-    dimensions: [1024, 1024],
+    dimensions: [size, size],
     animate: true,
 };
 
-const sketch = async ({ width, height, context, canvas }) => {
-    const size = width;
+const sketch = async ({ context, canvas }) => {
+
 
     let vertical = true;
 
@@ -37,7 +38,7 @@ const sketch = async ({ width, height, context, canvas }) => {
     };
     makeSepLine(vertical);
 
-    let bufCanvas = document.createElement('canvas');
+    const bufCanvas = document.createElement('canvas');
     bufCanvas.width = size;
     bufCanvas.height = size;
 
@@ -49,13 +50,8 @@ const sketch = async ({ width, height, context, canvas }) => {
 
     let prevSeparationTime = 0;
     let fillColor;
-    let pC = 0;
-    let c = 0;
-    let cc = 90;
-    let cDiff = -1;
     const setFillColor = () => {
         fillColor = `hsl(${random.range(0, 360)}, 100%,80%)`;
-        pC = c;
     };
     setFillColor();
 
@@ -66,14 +62,6 @@ const sketch = async ({ width, height, context, canvas }) => {
             setFillColor();
             makeSepLine(vertical);
             copyCanvas();
-            cc += cDiff;
-            if (cc < 40) {
-                cDiff = +1;
-                c += 60;
-            } else if (cc > 90) {
-                cDiff = -1;
-                c += 60;
-            }
         } else {
             context.fillStyle = fillColor;
             context.fillRect(0, 0, size, size);
