@@ -1,4 +1,4 @@
-export const drawLine = (context, lineCoords, closePath = false) => {
+export function setDrawPolygon(context, lineCoords, closePath = false) {
     context.beginPath();
     for (let i = 0; i < lineCoords.length; i += 1) {
         const p = lineCoords[i];
@@ -11,6 +11,10 @@ export const drawLine = (context, lineCoords, closePath = false) => {
     if (closePath) {
         context.closePath();
     }
+}
+
+export const drawLine = (context, lineCoords, closePath = false) => {
+    setDrawPolygon(context, lineCoords, (closePath = false));
     context.stroke();
 };
 
