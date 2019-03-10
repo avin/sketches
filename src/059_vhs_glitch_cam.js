@@ -2,7 +2,7 @@ import canvasSketch from 'canvas-sketch';
 import random from 'canvas-sketch-util/random';
 import { setPixel } from './lib/ctx';
 import WebCam from './lib/webcam';
-import { getLuminance, hslToRgb, rgbToHsl } from './lib/color';
+import { getLuminance } from './lib/color';
 
 let cam;
 
@@ -106,8 +106,6 @@ const sketch = async () => {
         context.putImageData(finalImageData, 0, 0);
     };
 };
-
-console.log(random.gaussian);
 
 (async () => {
     cam = new WebCam();
