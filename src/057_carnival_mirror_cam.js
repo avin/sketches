@@ -32,7 +32,7 @@ const sketch = async () => {
                 const g = camImageData.data[pixelIdx + 1];
                 const b = camImageData.data[pixelIdx + 2];
 
-                setPixel(imageData, [x, y + ~~(Math.cos(x / 10) * 10)], [r, g, b]);
+                setPixel(imageData, x, y + ~~(Math.cos(x / 10) * 10), r, g, b);
             }
         }
 

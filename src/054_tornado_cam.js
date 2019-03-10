@@ -73,7 +73,7 @@ const sketch = async ({ width, height, context }) => {
 
             if (dot.x > 0 && dot.x < width && dot.y > 0 && dot.y < height) {
                 [[0, -1], [-1, 0], [1, 0], [0, 1]].forEach(o => {
-                    setPixel(imgData, [dot.x + o[0], dot.y + o[1]], [cl * 255, cl * 255, cl * 255, 255]);
+                    setPixel(imgData, dot.x + o[0], dot.y + o[1], cl * 255, cl * 255, cl * 255, 255);
                 });
             }
         }

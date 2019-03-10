@@ -40,7 +40,7 @@ const sketch = async () => {
 
                 const rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
 
-                setPixel(imageData, [x, y], rgb);
+                setPixel(imageData, x, y, ...rgb);
             }
         }
 
