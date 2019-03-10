@@ -35,7 +35,7 @@ const sketch = async () => {
                 const b = camImageData.data[pixelIdx + 2];
 
                 const hsl = rgbToHsl(r, g, b);
-                hsl[0] += (time)%1;
+                hsl[0] += (time/2)%1;
                 hsl[1] = .8;
 
                 const rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
