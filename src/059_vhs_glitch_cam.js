@@ -82,19 +82,33 @@ const sketch = async () => {
             }
         }
 
-        // for (let y = 1; y < height; y += 1) {
-        //     for (let x = 0; x < width; x += 1) {
-        //         if(random.value() > 0.995){
-        //             for (let i = 0; i < random.range(5, 20); i+=1) {
-        //                 setPixel(finalImageData, [x + i, y], [255, 255, 255]);
-        //             }
-        //         }
-        //     }
-        // }
+        for (let y = 1; y < height; y += 1) {
+            const show = y > random.gaussian(0, (height/5)) + height ;
+            const sinFactor = Math.cos(y/5 + time/2)/2+0.5;
+            for (let x = 0; x < width; x += 1) {
+                if (random.value() > 0.950 && show && sinFactor > random.value()) {
+                    for (let i = 0; i < random.range(5, 20); i += 1) {
+                        const lx = x+i;
+                        const ly = y;
+
+                        const pixelIdx = width * 4 * y + 4 * x;
+
+                        const r = finalImageData.data[pixelIdx] + random.range(50, 100);
+                        const g = finalImageData.data[pixelIdx + 1]  + random.range(50, 100);
+                        const b = finalImageData.data[pixelIdx + 2]  + random.range(50, 100);
+
+                        setPixel(finalImageData, [lx, ly], [r, g, b]);
+
+                    }
+                }
+            }
+        }
 
         context.putImageData(finalImageData, 0, 0);
     };
 };
+
+console.log(random.gaussian);
 
 (async () => {
     cam = new WebCam();
