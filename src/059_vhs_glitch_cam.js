@@ -16,7 +16,7 @@ const settings = {
 const sketch = async () => {
     const params = {
         anaglyph: true,
-        lightFactor: 3,
+        lightFactor: 3.5,
         wavesNoise: true,
         linesNoise: true,
         linesNoiseFactor: 0.95,
