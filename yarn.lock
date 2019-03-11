@@ -455,6 +455,13 @@ canvas-sketch@^0.2.0:
     right-now "^1.0.0"
     two.js "^0.7.0-beta.1"
 
+chaikin-smooth@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/chaikin-smooth/-/chaikin-smooth-1.0.4.tgz#1cbd7683d97b5d8c75c8e9217e50ca7840510ead"
+  integrity sha1-HL12g9l7XYx1yOkhflDKeEBRDq0=
+  dependencies:
+    vec2-copy "^1.0.0"
+
 chalk@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.0.tgz#b5ea48efc9c1793dccc9b4767c93914d3f2d52ba"
@@ -3520,6 +3527,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+vec2-copy@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vec2-copy/-/vec2-copy-1.0.0.tgz#c6eec1d8dad54625194e5f71f8433b62d2f20a7a"
+  integrity sha1-xu7B2NrVRiUZTl9x+EM7YtLyCno=
 
 vue-eslint-parser@^2.0.2:
   version "2.0.3"
