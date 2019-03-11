@@ -1,8 +1,8 @@
 import canvasSketch from 'canvas-sketch';
 import { lerp } from 'canvas-sketch-util/math';
+import * as dat from 'dat.gui';
 import { drawLine } from './lib/ctx';
 import { pointsDistance } from './lib/geometry';
-import * as dat from 'dat.gui';
 
 const settings = {
     dimensions: [1024, 1024],
@@ -67,7 +67,7 @@ const sketch = async ({ width, height, context }) => {
         }
     };
 
-    return ({ context, time }) => {
+    return ({ context }) => {
         context.fillStyle = 'hsla(0, 0%, 98%, 1)';
         context.fillRect(0, 0, width, height);
 
