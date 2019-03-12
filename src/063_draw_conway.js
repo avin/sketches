@@ -96,6 +96,7 @@ const sketch = async ({ width, height, canvas }) => {
 
     let dirty = false;
 
+    const cellsAroundStack = [];
     const cellsAround = [];
     for (let y = -1; y <= 1; y += 1) {
         for (let x = -1; x <= 1; x += 1) {
@@ -105,10 +106,15 @@ const sketch = async ({ width, height, canvas }) => {
         }
     }
 
+    for (let i = 0; i < 20; i += 1) {
+        cellsAroundStack.push(random.shuffle(cellsAround));
+    }
+
     const calcCellsAround = (x, y) => {
         let cellsAroundCount = 0;
         let color;
-        cellsAround.forEach(c => {
+
+        random.pick(cellsAroundStack).forEach(c => {
             let rY = y + c[0];
             if (rY < 0) {
                 rY = mY - 1;
