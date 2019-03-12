@@ -10,7 +10,7 @@ const settings = {
     animate: true,
 };
 
-const sketch = async ({ width, height }) => {
+const sketch = async ({ canvas, width, height }) => {
     const lines = new Collection();
     const palette = ['#594f4f', '#547980', '#45ada8', '#9de0ad', '#e5fcc2'];
 
@@ -20,7 +20,38 @@ const sketch = async ({ width, height }) => {
 
     const fromY = -height;
     const toY = 0;
-    const maxLines = 500;
+    const maxLines = 1000;
+
+    const circle = {
+        x: width / 2,
+        y: height / 2,
+        r: 150,
+    };
+    const circles = [];
+
+    canvas.addEventListener('mousemove', e => {
+        const rect = e.target.getBoundingClientRect();
+        const kX = rect.width / width;
+        const kY = rect.height / height;
+        circle.x = Math.floor((e.clientX - rect.left) / kX);
+        circle.y = Math.floor((e.clientY - rect.top) / kY);
+    });
+
+    canvas.addEventListener('mouseleave', e => {
+        circle.x = -9000;
+        circle.y = 0;
+    });
+    canvas.addEventListener('mousewheel', ({deltaY}) => {
+        if (deltaY > 0) {
+            circle.r = Math.max(circle.r - 10, 20);
+        } else if (deltaY < 0) {
+            circle.r = Math.min(circle.r + 10, width / 2);
+        }
+    });
+
+    canvas.addEventListener('click', e => {
+        circles.push({ ...circle });
+    });
 
     const cleanLines = () => {
         for (const line of lines) {
@@ -42,8 +73,20 @@ const sketch = async ({ width, height }) => {
     };
 
     const rampUpLine = line => {
-        const x = line.points[line.points.length - 1].x;
-        const y = line.points[line.points.length - 1].y + line.speed;
+        let x = line.points[line.points.length - 1].x;
+        let y = line.points[line.points.length - 1].y + line.speed;
+
+        // Check is in circle
+        const allCircles = [...circles, circle];
+        for (const circle of allCircles) {
+            const distance = Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2);
+            const distanceDiff = distance - circle.r;
+            if (distanceDiff < 0) {
+                const angle = Math.atan2(y - circle.y, x - circle.x); // radians
+                x += Math.cos(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
+                y += Math.sin(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
+            }
+        }
 
         line.points.push({ x, y });
         if (line.points.length > line.size) {
@@ -67,6 +110,13 @@ const sketch = async ({ width, height }) => {
     return ({ context, width, height, time }) => {
         context.fillStyle = 'hsl(0, 0%, 10%)';
         context.fillRect(0, 0, width, height);
+
+        [...circles, circle].forEach(circle => {
+            context.strokeStyle = '#999';
+            context.beginPath();
+            context.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2, false);
+            context.stroke();
+        });
 
         for (const line of lines) {
             const lineCoords = line.points.map(p => [p.x, p.y]);
