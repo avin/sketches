@@ -3,6 +3,7 @@ import random from 'canvas-sketch-util/random';
 import { mapRange } from 'canvas-sketch-util/math';
 import Collection from './lib/collection';
 import { drawLine } from './lib/ctx';
+import { rope } from './lib/shape';
 
 const settings = {
     dimensions: 'A3',
@@ -41,7 +42,7 @@ const sketch = async ({ canvas, width, height }) => {
         circle.x = -9000;
         circle.y = 0;
     });
-    canvas.addEventListener('mousewheel', ({deltaY}) => {
+    canvas.addEventListener('mousewheel', ({ deltaY }) => {
         if (deltaY > 0) {
             circle.r = Math.max(circle.r - 10, 20);
         } else if (deltaY < 0) {
@@ -83,8 +84,27 @@ const sketch = async ({ canvas, width, height }) => {
             const distanceDiff = distance - circle.r;
             if (distanceDiff < 0) {
                 const angle = Math.atan2(y - circle.y, x - circle.x); // radians
-                x += Math.cos(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
-                y += Math.sin(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
+                const diffX =
+                    Math.cos(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
+                const diffY =
+                    Math.sin(angle) * Math.abs(Math.sqrt(Math.abs(distanceDiff * (circle.r / 4 / line.speed))));
+
+                if (Math.abs(diffX) > line.speed) {
+                    lines.remove(line);
+                    return;
+                }
+
+                x += diffX;
+                y += diffY;
+            }
+        }
+
+        if (line.points.length) {
+            const prevY = line.points[line.points.length - 1].y;
+
+            if (y < prevY || y === prevY) {
+                lines.remove(line);
+                return;
             }
         }
 
@@ -108,7 +128,7 @@ const sketch = async ({ canvas, width, height }) => {
     };
 
     return ({ context, width, height, time }) => {
-        context.fillStyle = 'hsl(0, 0%, 10%)';
+        context.fillStyle = 'hsla(0, 0%, 10%, .5)';
         context.fillRect(0, 0, width, height);
 
         [...circles, circle].forEach(circle => {
@@ -119,10 +139,20 @@ const sketch = async ({ canvas, width, height }) => {
         });
 
         for (const line of lines) {
-            const lineCoords = line.points.map(p => [p.x, p.y]);
+
             context.strokeStyle = line.color;
-            context.lineWidth = line.thickness;
-            drawLine(context, lineCoords);
+            // context.lineWidth = line.thickness;
+
+            if(line.points.length > 2){
+                const lineCoords = line.points.map((p,idx) => {
+                    return [p.x, p.y, idx/line.points.length * line.thickness*2]
+                });
+
+                const ropeCoords = rope(lineCoords);
+
+                drawLine(context, ropeCoords, true);
+            }
+
 
             rampUpLine(line);
         }
