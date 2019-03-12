@@ -38,7 +38,7 @@ const sketch = async ({ canvas, width, height }) => {
         circle.y = Math.floor((e.clientY - rect.top) / kY);
     });
 
-    canvas.addEventListener('mouseleave', e => {
+    canvas.addEventListener('mouseleave', () => {
         circle.x = -9000;
         circle.y = 0;
     });
@@ -50,7 +50,7 @@ const sketch = async ({ canvas, width, height }) => {
         }
     });
 
-    canvas.addEventListener('click', e => {
+    canvas.addEventListener('click', () => {
         circles.push({ ...circle });
     });
 
@@ -127,7 +127,7 @@ const sketch = async ({ canvas, width, height }) => {
         lines.add(line);
     };
 
-    return ({ context, width, height, time }) => {
+    return ({ context, width, height }) => {
         context.fillStyle = 'hsla(0, 0%, 10%, .5)';
         context.fillRect(0, 0, width, height);
 
