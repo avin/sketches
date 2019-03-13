@@ -26,3 +26,14 @@ export function setPixel(imgData, x, y, cR, cG, cB, cA = 255) {
     imgData.data[n + 2] = ~~cB;
     imgData.data[n + 3] = ~~cA;
 }
+
+export function getPixel(imgData, x, y, colorNumber) {
+    const n = (~~x + ~~y * imgData.width) * 4;
+
+    if(colorNumber !== undefined){
+        return imgData.data[n+colorNumber];
+    }
+
+    return imgData.data.slice(n, n+4);
+
+}

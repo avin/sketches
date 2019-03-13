@@ -35,6 +35,13 @@ class Collection {
         this.remove(...args);
     }
 
+    /**
+     * Remove all items
+     */
+    clean() {
+        this.items = [];
+    }
+
     get size() {
         return this.items.length;
     }
