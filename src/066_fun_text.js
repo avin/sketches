@@ -61,6 +61,7 @@ const sketch = async ({ width, height }) => {
         const textCanvasImageData = textCanvasCtx.getImageData(0, 0, width, height);
 
         const letterCirclesPath = new Path2D();
+        const noiseMeshes = new Array(colors.length).fill(0).map(() => new Path2D());
         for (let y = 0; y < height; y += 1) {
             for (let x = 0; x < width; x += 1) {
                 if (random.value() > 0.96) {
@@ -79,23 +80,21 @@ const sketch = async ({ width, height }) => {
                     }
                 }
                 if (random.value() > 0.9995) {
-                    context.strokeStyle = random.pick(colors);
+                    const noiseMesh = random.pick(noiseMeshes);
 
                     if (random.value() > 0.5) {
-                        context.beginPath();
-                        context.arc(x, y, random.rangeFloor(2, 5), 0, Math.PI * 2, false);
-                        context.stroke();
+                        const r = random.rangeFloor(2, 5);
+                        noiseMesh.moveTo(x + r, y);
+                        noiseMesh.arc(x, y, r, 0, Math.PI * 2, false);
                     } else {
                         const lineAngle = random.range(-Math.PI, Math.PI);
                         const length = random.rangeFloor(2, 5);
 
-                        context.beginPath();
-                        context.lineTo(x + Math.cos(lineAngle) * length, y + Math.sin(lineAngle) * length);
-                        context.lineTo(
+                        noiseMesh.moveTo(x + Math.cos(lineAngle) * length, y + Math.sin(lineAngle) * length);
+                        noiseMesh.lineTo(
                             x + Math.cos(lineAngle - Math.PI) * length,
                             y + Math.sin(lineAngle - Math.PI) * length
                         );
-                        context.stroke();
                     }
                 }
             }
@@ -103,6 +102,11 @@ const sketch = async ({ width, height }) => {
 
         context.strokeStyle = colors[wordIdx];
         context.stroke(letterCirclesPath);
+
+        for (let i = 0; i < noiseMeshes.length; i += 1) {
+            context.strokeStyle = colors[i];
+            context.stroke(noiseMeshes[i]);
+        }
 
         stats.end();
     };
