@@ -27,6 +27,7 @@ export function setPixel(imgData, x, y, cR, cG, cB, cA = 255) {
     imgData.data[n + 3] = ~~cA;
 }
 
+const resultGetPixelArray = [0,0,0,0];
 export function getPixel(imgData, x, y, colorNumber) {
     const n = (~~x + ~~y * imgData.width) * 4;
 
@@ -34,6 +35,8 @@ export function getPixel(imgData, x, y, colorNumber) {
         return imgData.data[n+colorNumber];
     }
 
-    return imgData.data.slice(n, n+4);
-
+    for (let i = 0; i < 4; i+=1) {
+        resultGetPixelArray[i] = n + i;
+    }
+    return resultGetPixelArray;
 }
