@@ -5,6 +5,8 @@ const srcFolder = './src/';
 const previewFolder = './preview/';
 const buildFolder = './build/';
 
+fs.ensureDirSync(`${buildFolder}preview/small`);
+
 const indexHtml = `<!doctype html>
 <html lang="en">
   <head>
@@ -43,14 +45,12 @@ files.forEach(file => {
     }
 });
 
-fs.writeFileSync(`${buildFolder}/files.html`, indexHtml.replace('{{LINKS}}', linksList));
-fs.writeFileSync(`${buildFolder}/files.json`, JSON.stringify(filesList));
+fs.writeFileSync(`${buildFolder}files.html`, indexHtml.replace('{{LINKS}}', linksList));
+fs.writeFileSync(`${buildFolder}files.json`, JSON.stringify(filesList));
 
 // ======================
 // Process images
 // ======================
-
-fs.ensureDirSync(`${buildFolder}preview/small`);
 
 const images = fs.readdirSync(previewFolder);
 
