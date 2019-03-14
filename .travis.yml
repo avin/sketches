@@ -8,12 +8,8 @@ cache:
 
 before_script:
   - npm install canvas-sketch-cli -g
-  - yarn
-  - cd website && yarn
 
-script:
-  - cd website && yarn run build
-  - yarn run build
+script: build.sh
 
 deploy:
   provider: pages
