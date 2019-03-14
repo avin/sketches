@@ -12,7 +12,7 @@ before_script:
   - cd website && yarn
 
 script:
-  - yarn run website:build
+  - cd website && yarn run build
   - yarn run build
 
 deploy:
