@@ -49,12 +49,14 @@ export function findSegmentIntersection(p1, p2, p3, p4) {
 
 /**
  * Get two points distance
- * @param p1
- * @param p2
  * @returns {number}
+ * @param p1x
+ * @param p1y
+ * @param p2x
+ * @param p2y
  */
-export function pointsDistance(p1, p2) {
-    return Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
+export function pointsDistance(p1x, p1y, p2x, p2y) {
+    return Math.sqrt((p1x - p2x) ** 2 + (p1y - p2y) ** 2);
 }
 
 /**
@@ -154,8 +156,8 @@ export function twoCirclesIntersection([x0, y0, r0], [x1, y1, r1], getCoordinate
     const a = (r0 * r0 - r1 * r1 + d * d) / (2.0 * d);
 
     /* Determine the coordinates of point 2. */
-    const x2 = x0 + dx * a / d;
-    const y2 = y0 + dy * a / d;
+    const x2 = x0 + (dx * a) / d;
+    const y2 = y0 + (dy * a) / d;
 
     /* Determine the distance from point 2 to either of the
          * intersection points.
@@ -219,4 +221,23 @@ export function circleInPolygon([cx, cy, cr], polygon) {
     }
 
     return true;
+}
+
+/**
+ * Make angle in range of [-Math.PI, Math.PI]
+ * @param a
+ * @returns {number}
+ */
+export function simpleAngle(a) {
+    return a >= Math.PI * 2 ? a - Math.PI * 2 : a < 0 ? a + Math.PI * 2 : a;
+}
+
+/**
+ * Calculate angle of reflect
+ * @param incidenceAngle
+ * @param surfaceAngle
+ * @returns {number}
+ */
+export function angleReflect(incidenceAngle, surfaceAngle) {
+    return simpleAngle(surfaceAngle * 2 - incidenceAngle);
 }

@@ -73,7 +73,7 @@ const sketch = async ({ width, height }) => {
         for (let i = 0; i < points.length; i += 1) {
             const p1 = points[i];
             const p2 = points[i + 1 === points.length ? 0 : i + 1];
-            const distance = pointsDistance([p1.x, p1.y], [p2.x, p2.y]);
+            const distance = pointsDistance(p1.x, p1.y, p2.x, p2.y);
 
             newPoints.push(p1);
 

@@ -35,6 +35,7 @@
         "gl-matrix": "^3.0.0",
         "howler": "^2.1.1",
         "lodash": "^4.17.11",
+        "matter-js": "^0.14.2",
         "nice-color-palettes": "^2.0.0",
         "point-in-polygon": "^1.0.1",
         "soundcloud-badge": "^1.1.0",

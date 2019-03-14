@@ -43,7 +43,7 @@ const sketch = async ({ width, height, context }) => {
         const { minDistance, maxDistance } = params;
         const neighbors = [];
         points.forEach(p => {
-            const distance = pointsDistance([p.x, p.y], [point.x, point.y]);
+            const distance = pointsDistance(p.x, p.y, point.x, point.y);
             if (distance <= maxDistance && distance >= minDistance) {
                 neighbors.push({
                     aPoint: p,

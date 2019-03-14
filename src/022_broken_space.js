@@ -53,7 +53,7 @@ const sketch = ({ width, height }) => {
             );
 
             if (i) {
-                const dist = pointsDistance(newLine.p1, i);
+                const dist = pointsDistance(newLine.p1[0], newLine.p1[1], i[0],i[1]);
                 if (!lowerDist || dist < lowerDist) {
                     ri = i;
                     lowerDist = dist;

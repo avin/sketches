@@ -43,7 +43,7 @@ const sketch = ({ width, height }) => {
                 if (point === aPoint) {
                     return;
                 }
-                const distance = pointsDistance([point.x, point.y], [aPoint.x, aPoint.y]);
+                const distance = pointsDistance(point.x, point.y, aPoint.x, aPoint.y);
 
                 const distFactor = sx(distance) / (size * 0.03);
                 if (distFactor < 1) {
