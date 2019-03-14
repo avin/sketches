@@ -1,6 +1,8 @@
-const fs = require('fs');
+const fs = require("fs-extra");
+const sharp = require('sharp');
 const execSync = require('child_process').execSync;
 const srcFolder = './src/';
+const previewFolder = './preview/';
 const buildFolder = './build/';
 
 const indexHtml = `<!doctype html>
@@ -24,15 +26,50 @@ const indexHtml = `<!doctype html>
 </html>
 `;
 
-fs.readdir(srcFolder, (err, files) => {
-    let linksList = '';
+// ======================
+// Process js files
+// ======================
 
-    files.forEach(file => {
-        if (file.match(/\.js$/)) {
-            execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --no-compress --dir ${buildFolder}`);
-            linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
-        }
-    });
+const files = fs.readdirSync(srcFolder);
 
-    fs.writeFileSync(`${buildFolder}/index.html`, indexHtml.replace('{{LINKS}}', linksList));
+let linksList = '';
+const filesList = [];
+
+files.forEach(file => {
+    if (file.match(/\.js$/)) {
+        // execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --no-compress --dir ${buildFolder}`);
+        linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
+        filesList.push(file.replace(/\.js$/, ''));
+    }
 });
+
+fs.writeFileSync(`${buildFolder}/files.html`, indexHtml.replace('{{LINKS}}', linksList));
+fs.writeFileSync(`${buildFolder}/files.json`, JSON.stringify(filesList));
+
+// ======================
+// Process images
+// ======================
+
+fs.ensureDirSync(`${buildFolder}preview/small`);
+
+const images = fs.readdirSync(previewFolder);
+
+images.forEach(image => {
+    const imageSrc = `${previewFolder}${image}`;
+    sharp(imageSrc)
+        .resize(200, 200)
+        .toFile(`${buildFolder}preview/${image}`);
+
+    sharp(imageSrc)
+        .resize(30, 30)
+        .toFile(`${buildFolder}preview/small/${image}`);
+});
+
+// ======================
+// Copy website build
+// ======================
+
+fs.copy('./website/build', buildFolder);
+
+
+

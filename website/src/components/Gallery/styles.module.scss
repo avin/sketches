@@ -1,0 +1,13 @@
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.loading{
+    padding: 60px;
+    text-align: center;
+    font-size: 0.8em;
+}

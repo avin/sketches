@@ -6,7 +6,9 @@
     "scripts": {
         "build": "node scripts/build.js",
         "prettier": "prettier-eslint --write \"src/**/*.{js,json,css}\"",
-        "lint": "eslint src/**/*.js"
+        "lint": "eslint src/**/*.js",
+        "website:build": "cd website && yarn build",
+        "website:run": "cd website && yarn start"
     },
     "husky": {
         "hooks": {
@@ -32,12 +34,14 @@
         "d3-array": "^2.0.3",
         "d3-delaunay": "^4.1.5",
         "dat.gui": "^0.7.5",
+        "fs-extra": "^7.0.1",
         "gl-matrix": "^3.0.0",
         "howler": "^2.1.1",
         "lodash": "^4.17.11",
         "matter-js": "^0.14.2",
         "nice-color-palettes": "^2.0.0",
         "point-in-polygon": "^1.0.1",
+        "sharp": "^0.21.3",
         "soundcloud-badge": "^1.1.0",
         "stats.js": "^0.17.0",
         "web-audio-analyser": "^2.0.1"
