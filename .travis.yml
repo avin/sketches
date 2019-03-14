@@ -9,6 +9,7 @@ cache:
 before_script:
   - npm install canvas-sketch-cli -g
   - yarn
+  - cd website && yarn
 
 script:
   - yarn run website:build
