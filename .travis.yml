@@ -8,6 +8,7 @@ cache:
 
 before_script:
   - npm install canvas-sketch-cli -g
+  - chmod +x build.sh
 
 script: build.sh
 
