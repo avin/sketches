@@ -3,6 +3,7 @@ import random from 'canvas-sketch-util/random';
 import Stats from 'stats.js';
 import { getPixel } from './lib/ctx';
 import Collection from './lib/collection';
+import { createMotionBlur } from './lib/canvas';
 
 const settings = {
     dimensions: [600, 600],
@@ -77,7 +78,7 @@ const sketch = async ({ width, height }) => {
     };
     changeWord();
 
-    return ({ context, width, height, time }) => {
+    const render = ({ context, width, height, time }) => {
         stats.begin();
 
         if (time - prevTime > 1.5) {
@@ -105,6 +106,11 @@ const sketch = async ({ width, height }) => {
 
         stats.end();
     };
+
+    return createMotionBlur(render, {
+        samplesPerFrame: 4,
+        shutterAngle: 0.5
+    });
 };
 
 canvasSketch(sketch, settings);
