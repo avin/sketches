@@ -2,6 +2,7 @@ import random from 'canvas-sketch-util/random';
 import { circeIntersectWithCircles, getPointCoordsByAngleAndDistance } from './geometry';
 import { lerp } from 'canvas-sketch-util/math';
 import pointInsidePolygon from 'point-in-polygon';
+import chaikinSmooth from 'chaikin-smooth';
 
 /**
  * Get rope shape contour coordinates
@@ -41,6 +42,14 @@ export function rope(coords) {
 
     return [...lineContour1, ...lineContour2.reverse()];
 }
+
+export function smoothPath(path, level = 0){
+    path = chaikinSmooth(path);
+    if (level === 0) {
+        return path;
+    }
+    return smoothPath(path, level - 1);
+};
 
 export function circleTree({
     x = 0,
