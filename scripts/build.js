@@ -46,7 +46,7 @@ files.forEach(file => {
 });
 
 fs.writeFileSync(`${buildFolder}files.html`, indexHtml.replace('{{LINKS}}', linksList));
-fs.writeFileSync(`${buildFolder}files.json`, JSON.stringify(filesList));
+fs.writeFileSync(`${buildFolder}files.json`, JSON.stringify(filesList.reverse()));
 
 // ======================
 // Process images
