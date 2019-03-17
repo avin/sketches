@@ -6,7 +6,6 @@
 
 import canvasSketch from 'canvas-sketch';
 import * as dat from 'dat.gui';
-import { drawLine, setDrawPolygon } from './lib/ctx';
 import { extendGui } from './lib/gui';
 
 const settings = {
@@ -43,6 +42,9 @@ const subdivide = triangles => {
 
 const sketch = async ({ width, height }) => {
     let redraw = true;
+
+    const color0 = '#fa6900';
+    const color1 = '#69d2e7';
 
     const params = {
         iterations: 5,
@@ -105,12 +107,11 @@ const sketch = async ({ width, height }) => {
                 path.lineTo(c[0], c[1]);
             }
 
-            context.fillStyle = '#69d2e7';
+            context.fillStyle = color1;
             context.fill(fillPathC1);
-            context.fillStyle = '#fa6900';
+            context.fillStyle = color0;
             context.fill(fillPathC0);
         }
-
 
         const linesPath = new Path2D();
         const linesPathC0 = new Path2D();
@@ -131,9 +132,9 @@ const sketch = async ({ width, height }) => {
         // OPTIONAL! Just glitch solver
         if (options.fillColor) {
             context.lineWidth = 1;
-            context.strokeStyle = '#69d2e7';
+            context.strokeStyle = color1;
             context.stroke(linesPathC1);
-            context.strokeStyle = '#fa6900';
+            context.strokeStyle = color0;
             context.stroke(linesPathC0);
         }
 
