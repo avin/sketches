@@ -93,27 +93,50 @@ const sketch = async ({ width, height }) => {
             triangles = subdivide(triangles);
         }
 
-        for (const [color, a, b, c] of triangles) {
-            context.fillStyle = color === 1 ? '#69d2e7' : '#fa6900';
-            setDrawPolygon(context, [a, b, c], true);
-            if (options.fillColor) {
-                context.fill();
+        if (options.fillColor) {
+            const fillPathC0 = new Path2D();
+            const fillPathC1 = new Path2D();
+
+            for (const [color, a, b, c] of triangles) {
+                const path = color === 1 ? fillPathC1 : fillPathC0;
+
+                path.moveTo(a[0], a[1]);
+                path.lineTo(b[0], b[1]);
+                path.lineTo(c[0], c[1]);
             }
+
+            context.fillStyle = '#69d2e7';
+            context.fill(fillPathC1);
+            context.fillStyle = '#fa6900';
+            context.fill(fillPathC0);
         }
 
+
         const linesPath = new Path2D();
+        const linesPathC0 = new Path2D();
+        const linesPathC1 = new Path2D();
         for (const [color, a, b, c] of triangles) {
             linesPath.moveTo(c[0], c[1]);
             linesPath.lineTo(a[0], a[1]);
             linesPath.lineTo(b[0], b[1]);
 
-            // To remove white glitch lines
+            // OPTIONAL! Just glitch solver
             if (options.fillColor) {
-                context.lineWidth = 0.5;
-                context.strokeStyle = color === 1 ? '#69d2e7' : '#fa6900';
-                drawLine(context, [b, c]);
+                const path = color === 1 ? linesPathC1 : linesPathC0;
+                path.moveTo(b[0], b[1]);
+                path.lineTo(c[0], c[1]);
             }
         }
+
+        // OPTIONAL! Just glitch solver
+        if (options.fillColor) {
+            context.lineWidth = 1;
+            context.strokeStyle = '#69d2e7';
+            context.stroke(linesPathC1);
+            context.strokeStyle = '#fa6900';
+            context.stroke(linesPathC0);
+        }
+
         context.lineWidth = 1;
         context.strokeStyle = '#000';
         context.stroke(linesPath);
