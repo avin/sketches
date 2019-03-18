@@ -6,6 +6,7 @@ const previewFolder = './preview/';
 const buildFolder = './build/';
 
 fs.ensureDirSync(`${buildFolder}preview/small`);
+fs.ensureDirSync(`${buildFolder}editor`);
 
 const indexHtml = `<!doctype html>
 <html lang="en">
@@ -70,6 +71,7 @@ images.forEach(image => {
 // ======================
 
 fs.copy('./website/build', buildFolder);
+fs.copy('./editor', `${buildFolder}editor`);
 
 
 

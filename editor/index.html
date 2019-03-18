@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Editor</title>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
+    <link type="text/css" rel="stylesheet" href="https://rawgit.com/patriciogonzalezvivo/glslEditor/gh-pages/build/glslEditor.css">
+    <script type="application/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslEditor/gh-pages/build/glslEditor.js"></script>
+    <style>
+      html, body, #glsl_editor{
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="glsl_editor"></div>
+  </body>
+  <script type="text/javascript">
+      const glslEditor = new GlslEditor('#glsl_editor', {
+          canvas_size: 500,
+          canvas_draggable: true,
+          theme: 'default',
+          multipleBuffers: true,
+          watchHash: true,
+          fileDrops: true,
+          menu: true,
+          tooltips: true
+      });
+  </script>
+</html>
