@@ -59,12 +59,16 @@ images.forEach(image => {
     const imageSrc = `${previewFolder}${image}`;
     sharp(imageSrc)
         .resize(200, 200)
-        .quality(100)
+        .jpeg({
+            quality: 100,
+        })
         .toFile(`${buildFolder}preview/${image}`);
 
     sharp(imageSrc)
         .resize(30, 30)
-        .quality(100)
+        .jpeg({
+            quality: 100,
+        })
         .toFile(`${buildFolder}preview/small/${image}`);
 });
 
