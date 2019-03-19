@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+            #canvasGL {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="canvasGL"></canvas>
+
+        <script>
+            const VSHADER_SOURCE = /*language=GLSL*/ `
+                attribute vec4 a_Position;
+                attribute float a_PointSize;
+                void main(){
+                    gl_PointSize = a_PointSize;
+                    gl_Position = a_Position;
+                }
+            `;
+
+            const FSHADER_SOURCE = /*language=GLSL*/ `
+                precision mediump float;
+                void main(){
+                    gl_FragColor = vec4(1.0,0.5,0.0,1.0);
+                }
+            `;
+
+            function getShader(gl, id, str) {
+                let shader;
+                if(id === 'vs'){
+                    shader = gl.createShader(gl.VERTEX_SHADER);
+                } else if (id === 'fs'){
+                    shader = gl.createShader(gl.FRAGMENT_SHADER);
+                } else {
+                    throw new Error('Unknown shader type');
+                }
+
+                gl.shaderSource(shader, str);
+                gl.compileShader(shader);
+
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.log(gl.getShaderInfoLog(shader));
+                    throw new Error('shader compile error');
+                }
+
+                return shader;
+            }
+
+            function initShaders(gl) {
+                const shaderProgram = gl.createProgram();
+
+                const vs = getShader(gl, 'vs', VSHADER_SOURCE);
+                gl.attachShader(shaderProgram, vs);
+
+                const fs = getShader(gl, 'fs', FSHADER_SOURCE);
+                gl.attachShader(shaderProgram, fs);
+
+
+                gl.linkProgram(shaderProgram);
+                gl.useProgram(shaderProgram);
+
+                const aPosition = gl.getAttribLocation(shaderProgram, 'a_Position');
+                if(aPosition < 0){
+                    throw  new Error('no attribute aPosition');
+                }
+
+                const aPointSize = gl.getAttribLocation(shaderProgram, 'a_PointSize');
+                if(aPointSize < 0) {
+                    throw  new Error('no attribute aPosition');
+                }
+
+                gl.vertexAttrib1f(aPointSize, 380.0);
+                gl.vertexAttrib3f(aPosition, 0.0, 0.0, 0.0)
+            }
+
+            function webGLStart() {
+                const canvas = document.getElementById('canvasGL');
+
+                if (!canvas) {
+                    console.log('failed to get canvas');
+                    return;
+                }
+
+                canvas.width = 400;
+                canvas.height = 400;
+
+                let gl;
+
+                gl = canvas.getContext('webgl', { antialias: false });
+
+                initShaders(gl);
+
+                gl.clearColor(0.5, 0.5, 0.5, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.drawArrays(gl.POINTS, 0, 1);
+            }
+
+            document.addEventListener('DOMContentLoaded', function(event) {
+                try {
+                    webGLStart();
+                } catch (e) {
+                    console.log(e);
+                    alert('ERR: ' + e.message);
+                }
+            });
+        </script>
+    </body>
+</html>

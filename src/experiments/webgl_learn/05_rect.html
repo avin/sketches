@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+            #canvasGL {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="canvasGL"></canvas>
+
+        <script>
+            const VSHADER_SOURCE = /*language=GLSL*/ `
+                attribute vec2 a_Position;
+                attribute vec3 a_Color;
+                varying vec3 v_Color;
+
+                void main(){
+                    v_Color = a_Color;
+                    gl_Position = vec4(a_Position, 0.0, 1.0);
+                }
+            `;
+
+            const FSHADER_SOURCE = /*language=GLSL*/ `
+                precision mediump float;
+                varying vec3 v_Color;
+
+                void main(){
+                    gl_FragColor = vec4(v_Color,1.0);
+                }
+            `;
+
+            function getShader(gl, id, str) {
+                let shader;
+                if (id === 'vs') {
+                    shader = gl.createShader(gl.VERTEX_SHADER);
+                } else if (id === 'fs') {
+                    shader = gl.createShader(gl.FRAGMENT_SHADER);
+                } else {
+                    throw new Error('Unknown shader type');
+                }
+
+                gl.shaderSource(shader, str);
+                gl.compileShader(shader);
+
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.log(gl.getShaderInfoLog(shader));
+                    throw new Error('shader compile error');
+                }
+
+                return shader;
+            }
+
+            function initShaders(gl) {
+                const shaderProgram = gl.createProgram();
+
+                const vs = getShader(gl, 'vs', VSHADER_SOURCE);
+                gl.attachShader(shaderProgram, vs);
+
+                const fs = getShader(gl, 'fs', FSHADER_SOURCE);
+                gl.attachShader(shaderProgram, fs);
+
+                gl.linkProgram(shaderProgram);
+                gl.useProgram(shaderProgram);
+
+                return shaderProgram;
+            }
+
+            function webGLStart() {
+                const canvas = document.getElementById('canvasGL');
+
+                if (!canvas) {
+                    console.log('failed to get canvas');
+                    return;
+                }
+
+                canvas.width = 400;
+                canvas.height = 400;
+
+                let gl;
+
+                gl = canvas.getContext('webgl', { antialias: false });
+
+                const shaderProgram = initShaders(gl);
+
+                const aPosition = gl.getAttribLocation(shaderProgram, 'a_Position');
+                const aColor = gl.getAttribLocation(shaderProgram, 'a_Color');
+
+                gl.enableVertexAttribArray(aPosition);
+                gl.enableVertexAttribArray(aColor);
+
+                const triangleVertex = [
+                    -0.5, // x === 1
+                    -0.5, // y
+                    1.0, // c-r
+                    0.0, // c-g
+                    0.0, // c-b
+
+                    -0.5, // x === 2
+                    0.5, // y
+                    0.0, // c-r
+                    1.0, // c-g
+                    0.0, // c-b
+
+                    0.5, // x === 3
+                    0.5, // y
+                    0.0, // c-r
+                    0.0, // c-g
+                    1.0, // c-b
+
+                    0.5, // x === 4
+                    -0.5, // y
+                    0.0, // c-r
+                    0.0, // c-g
+                    0.0, // c-b
+                ];
+
+                const triangleVertexBuf = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBuf);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertex), gl.STATIC_DRAW);
+
+                const triangleFaces = [0, 1, 2, 0, 2, 3];
+                const triangleFacesBuf = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleFacesBuf);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(triangleFaces), gl.STATIC_DRAW);
+
+                gl.clearColor(0.9, 0.9, 0.95, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBuf);
+
+                gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 4 * (2 + 3), 0);
+                gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 4 * (2 + 3), 2 * 4);
+
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleFacesBuf);
+                gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+                gl.flush();
+
+                // gl.drawArrays(gl.TRIANGLES, 0, 3);
+            }
+
+            document.addEventListener('DOMContentLoaded', function(event) {
+                try {
+                    webGLStart();
+                } catch (e) {
+                    console.log(e);
+                    alert('ERR: ' + e.message);
+                }
+            });
+        </script>
+    </body>
+</html>

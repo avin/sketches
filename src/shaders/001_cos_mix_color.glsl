@@ -41,6 +41,10 @@ void main() {
 	vec3 col1 = vec3(1.0, 0.0, 0.0);
 	vec3 col2 = vec3(0.0, 0.0, 1.0);
 	
+	vec2 st = vUV;
+	
+	st = st / 2.0;
+	
 	vec3 pixel;
 	if (vUV.y < cos(vUV.x * cos(u_time) * 5.0 + u_time * 5.0) / 4.0 + 0.5) {
 		pixel = mix(col1, col2, cos(u_time * 1.0) / 2.0 + 0.5);
