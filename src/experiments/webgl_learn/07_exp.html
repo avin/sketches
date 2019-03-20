@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script src="lib/webgl-utils.js"></script>
+        <script src="lib/glMatrix-0.9.5.js"></script>
+        <title>Document</title>
+    </head>
+
+    <!-- vertex shader -->
+    <script id="2d-vertex-shader" type="x-shader/x-vertex">
+        attribute vec2 a_position;
+
+        uniform mat4 u_mMatrix;
+        uniform vec2 u_resolution;
+
+        void main() {
+            gl_Position = u_mMatrix * vec4(a_position, 0, 1);
+        }
+    </script>
+
+    <!-- fragment shader -->
+    <script id="2d-fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        uniform vec4 u_color;
+        uniform float u_time;
+
+        void main() {
+
+            vec4 color = u_color;
+            color.g = cos(u_time * 5.)/2.0 + 0.5;
+
+            gl_FragColor = color; // return redish-purple
+        }
+    </script>
+
+    <body>
+        <canvas id="canvasGl" style="width: 800px;height: 600px;"></canvas>
+
+        <script>
+            window.onload = () => {
+                main();
+            };
+
+            function main() {
+                const canvas = document.getElementById('canvasGl');
+                const gl = canvas.getContext('webgl');
+                if (!canvas) {
+                    return;
+                }
+
+                console.log(gl);
+
+                webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+
+                const program = webglUtils.createProgramFromScripts(gl, ['2d-vertex-shader', '2d-fragment-shader']);
+
+                const aPosition = gl.getAttribLocation(program, 'a_position');
+                const uResolution = gl.getUniformLocation(program, 'u_resolution');
+                const uColor = gl.getUniformLocation(program, 'u_color');
+                const uTime = gl.getUniformLocation(program, 'u_time');
+                const uMMatrix = gl.getUniformLocation(program, 'u_mMatrix');
+
+                // prettier-ignore
+                const positions = [
+                    0, 0,
+                    1, 0,
+                    0, 1,
+                    1, 1,
+                ];
+                const positionBuffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+                const triangleFaces = [0, 1, 2, 2, 1, 3];
+                const triangleFacesBuf = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleFacesBuf);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(triangleFaces), gl.STATIC_DRAW);
+
+                const animate = time => {
+                    time /= 1000;
+                    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+                    gl.clearColor(0, 0, 0, 0.1);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    gl.useProgram(program);
+
+                    gl.enableVertexAttribArray(aPosition);
+                    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+
+                    gl.uniform2f(uResolution, gl.canvas.width, gl.canvas.height);
+                    gl.uniform1f(uTime, time);
+
+                    for (let i = 0; i < 5; i++) {
+                        gl.uniform4f(uColor, i/5, 0, 0, 1);
+
+                        const modelMatrix = mat4.create();
+                        mat4.identity(modelMatrix);
+                        mat4.scale(modelMatrix, [Math.cos(time + i)/2+0.5, 0.1*(i+1), 1]); //x y z
+                        mat4.translate(modelMatrix, [0.0, i/5, 0]); //x y z
+                        mat4.rotateZ(modelMatrix, time);
+                        gl.uniformMatrix4fv(uMMatrix, false, modelMatrix);
+
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleFacesBuf);
+                        gl.drawElements(gl.TRIANGLES, triangleFaces.length, gl.UNSIGNED_SHORT, 0);
+                    }
+
+
+                    requestAnimationFrame(animate);
+                };
+
+                animate(0);
+            }
+        </script>
+    </body>
+</html>
