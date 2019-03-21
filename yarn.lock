@@ -476,6 +476,26 @@ camelcase@^4.1.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
   integrity sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0=
 
+camera-picking-ray@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/camera-picking-ray/-/camera-picking-ray-1.0.1.tgz#49567a4edc2de5bc13e4b6fd959520bf13a30490"
+  integrity sha1-SVZ6Ttwt5bwT5Lb9lZUgvxOjBJA=
+  dependencies:
+    camera-unproject "^1.0.1"
+    gl-vec3 "^1.0.3"
+
+camera-project@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/camera-project/-/camera-project-1.0.2.tgz#d1d696c5aa164cee92e21bb922aba52b6c0a25de"
+  integrity sha1-0daWxaoWTO6S4hu5IqulK2wKJd4=
+  dependencies:
+    gl-vec4 "^1.0.1"
+
+camera-unproject@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/camera-unproject/-/camera-unproject-1.0.1.tgz#86927a9d6d5340a8c9e36da840f7ccb6d6da12cf"
+  integrity sha1-hpJ6nW1TQKjJ422oQPfMttbaEs8=
+
 canvas-sketch-util@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/canvas-sketch-util/-/canvas-sketch-util-1.6.0.tgz#83936fc17d581478b1e1db086442fc0987c89dd6"
@@ -1564,10 +1584,30 @@ github-from-package@0.0.0:
   resolved "https://registry.yarnpkg.com/github-from-package/-/github-from-package-0.0.0.tgz#97fb5d96bfde8973313f20e8288ef9a167fa64ce"
   integrity sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=
 
+gl-mat4@^1.1.3:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/gl-mat4/-/gl-mat4-1.2.0.tgz#49d8a7636b70aa00819216635f4a3fd3f4669b26"
+  integrity sha512-sT5C0pwB1/e9G9AvAoLsoaJtbMGjfd/jfxo8jMCKqYYEnjZuFvqV5rehqar0538EmssjdDeiEWnKyBSTw7quoA==
+
 gl-matrix@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/gl-matrix/-/gl-matrix-3.0.0.tgz#888301ac7650e148c3865370e13ec66d08a8381f"
   integrity sha512-PD4mVH/C/Zs64kOozeFnKY8ybhgwxXXQYGWdB4h68krAHknWJgk9uKOn6z8YElh5//vs++90pb6csrTIDWnexA==
+
+gl-vec2@^1.0.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/gl-vec2/-/gl-vec2-1.3.0.tgz#83d472ed46034de8e09cbc857123fb6c81c51199"
+  integrity sha512-YiqaAuNsheWmUV0Sa8k94kBB0D6RWjwZztyO+trEYS8KzJ6OQB/4686gdrf59wld4hHFIvaxynO3nRxpk1Ij/A==
+
+gl-vec3@^1.0.2, gl-vec3@^1.0.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/gl-vec3/-/gl-vec3-1.1.3.tgz#a47c62f918774a06cbed1b65bcd0288ecbb03826"
+  integrity sha512-jduKUqT0SGH02l8Yl+mV1yVsDfYgQAJyXGxkJQGyxPLHRiW25DwVIRPt6uvhrEMHftJfqhqKthRcyZqNEl9Xdw==
+
+gl-vec4@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gl-vec4/-/gl-vec4-1.0.1.tgz#97d96878281b14b532cbce101785dfd1cb340964"
+  integrity sha1-l9loeCgbFLUyy84QF4Xf0cs0CWQ=
 
 glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3:
   version "7.1.3"
@@ -1625,6 +1665,13 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+glsl-dither@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/glsl-dither/-/glsl-dither-1.0.1.tgz#64c7bb73cb758327884d83915daea78ae3fbf5d6"
+  integrity sha1-ZMe7c8t1gyeITYORXa6niuP79dY=
+  dependencies:
+    glsl-luma "^1.0.1"
+
 glsl-inject-defines@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/glsl-inject-defines/-/glsl-inject-defines-1.0.3.tgz#dd1aacc2c17fcb2bd3fc32411c6633d0d7b60fd4"
@@ -1633,6 +1680,16 @@ glsl-inject-defines@^1.0.1:
     glsl-token-inject-block "^1.0.0"
     glsl-token-string "^1.0.1"
     glsl-tokenizer "^2.0.2"
+
+glsl-luma@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/glsl-luma/-/glsl-luma-1.0.1.tgz#b5ec2ade6bae1ba68903870d8ca4483911c7b5f5"
+  integrity sha1-tewq3muuG6aJA4cNjKRIORHHtfU=
+
+glsl-noise@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/glsl-noise/-/glsl-noise-0.0.0.tgz#367745f3a33382c0eeec4cb54b7e99cfc1d7670b"
+  integrity sha1-NndF86MzgsDu7Ey1S36Zz8HXZws=
 
 glsl-resolve@0.0.1:
   version "0.0.1"
@@ -1837,6 +1894,11 @@ hawk@~1.0.0:
     hoek "0.9.x"
     sntp "0.2.x"
 
+hex-rgb@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/hex-rgb/-/hex-rgb-4.0.0.tgz#9df2123d4c37fe2600bbba0047fed7c53dffab90"
+  integrity sha512-7z7WxdbS99/vesuH/I4FkJJ+tX/CTipjbQeQ/qqLe2I2XT64f7FsDd3EtJiz4NFczaCjOvYIMJL0fJLHnJQKcg==
+
 hoek@0.9.x:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-0.9.1.tgz#3d322462badf07716ea7eb85baf88079cddce505"
@@ -1883,6 +1945,13 @@ iconv-lite@^0.4.17:
   integrity sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
+
+icosphere@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/icosphere/-/icosphere-1.0.0.tgz#8251555d437db9eabc688f88124b68a30fa84710"
+  integrity sha1-glFVXUN9ueq8aI+IEktoow+oRxA=
+  dependencies:
+    vectors "^0.1.0"
 
 ignore@^3.2.7, ignore@^3.3.3:
   version "3.3.10"
@@ -2791,6 +2860,11 @@ oauth-sign@~0.3.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.3.0.tgz#cb540f93bb2b22a7d5941691a288d60e8ea9386e"
   integrity sha1-y1QPk7srIqfVlBaRoojWDo6pOG4=
 
+object-assign@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-2.1.1.tgz#43c36e5d569ff8e4816c4efa8be02d26967c18aa"
+  integrity sha1-Q8NuXVaf+OSBbE76i+AtJpZ8GKo=
+
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -3028,6 +3102,20 @@ path-type@^2.0.0:
   dependencies:
     pify "^2.0.0"
 
+perspective-camera@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/perspective-camera/-/perspective-camera-2.0.1.tgz#7593e47eba0b7038b81ce698db344f125a3b3625"
+  integrity sha1-dZPkfroLcDi4HOaY2zRPElo7NiU=
+  dependencies:
+    camera-picking-ray "^1.0.0"
+    camera-project "^1.0.2"
+    camera-unproject "^1.0.1"
+    defined "^1.0.0"
+    gl-mat4 "^1.1.3"
+    gl-vec3 "^1.0.3"
+    object-assign "^2.0.0"
+    ray-3d "^1.0.2"
+
 pify@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -3169,6 +3257,15 @@ pretty-format@^23.0.1:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
+primitive-icosphere@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/primitive-icosphere/-/primitive-icosphere-1.0.2.tgz#61176a0a5fc5bed6b2bf3bd8566db24642ba43fe"
+  integrity sha1-YRdqCl/FvtayvzvYVm2yRkK6Q/4=
+  dependencies:
+    gl-vec2 "^1.0.0"
+    gl-vec3 "^1.0.3"
+    icosphere "^1.0.0"
+
 primitive-quad@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/primitive-quad/-/primitive-quad-2.0.0.tgz#c20993e4f9600238926bb500e529053043ef8aeb"
@@ -3241,6 +3338,43 @@ quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
   integrity sha1-Q2CxfGETatOAeDl/8RQW4Ybc+7g=
+
+ray-3d@^1.0.2:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ray-3d/-/ray-3d-1.1.1.tgz#73801135b567866850881a5c06655853f2e10273"
+  integrity sha1-c4ARNbVnhmhQiBpcBmVYU/LhAnM=
+  dependencies:
+    gl-vec3 "^1.0.3"
+    ray-aabb-intersection "^1.0.1"
+    ray-plane-intersection "^1.0.0"
+    ray-sphere-intersection "^1.0.0"
+    ray-triangle-intersection "^1.0.3"
+
+ray-aabb-intersection@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ray-aabb-intersection/-/ray-aabb-intersection-1.0.1.tgz#2eb510228d7d9222fdc8167e6737aad73666dcc7"
+  integrity sha1-LrUQIo19kiL9yBZ+Zzeq1zZm3Mc=
+
+ray-plane-intersection@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ray-plane-intersection/-/ray-plane-intersection-1.0.0.tgz#763be1cd04eddad1847af6d5e70941b7302a47bb"
+  integrity sha1-djvhzQTt2tGEevbV5wlBtzAqR7s=
+  dependencies:
+    gl-vec3 "^1.0.3"
+
+ray-sphere-intersection@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ray-sphere-intersection/-/ray-sphere-intersection-1.0.0.tgz#7f233d1d4dbaf5265757c9826532f53b1e4eeaca"
+  integrity sha1-fyM9HU269SZXV8mCZTL1Ox5O6so=
+  dependencies:
+    gl-vec3 "^1.0.3"
+
+ray-triangle-intersection@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ray-triangle-intersection/-/ray-triangle-intersection-1.0.3.tgz#8ea8f2f383580bdabd36f5e51359cf71e1074d34"
+  integrity sha1-jqjy84NYC9q9NvXlE1nPceEHTTQ=
+  dependencies:
+    gl-vec3 "^1.0.2"
 
 rc@^1.2.7:
   version "1.2.8"
@@ -3324,7 +3458,7 @@ regexpp@^1.0.1:
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-1.1.0.tgz#0e3516dd0b7904f413d2d4193dce4618c3a689ab"
   integrity sha512-LOPw8FpgdQF9etWMaAfG/WRthIdXJGYp4mJ2Jgn/2lpkbod9jPn0t9UqN7AxBOKNfzRbYyVfgc7Vk4t/MpnXgw==
 
-regl@^1.3.7:
+regl@^1.3.11, regl@^1.3.7:
   version "1.3.11"
   resolved "https://registry.yarnpkg.com/regl/-/regl-1.3.11.tgz#515e5173ffdc0618f908dd4e338a34ae9555f745"
   integrity sha512-tmt6CRhRqbcsYDWNwv+iG7GGOXdgoOBC7lKzoPMgnzpt3WKBQ3c8i7AxgbvTRZzty29hrW92fAJeZkPFQehfWA==
@@ -4159,6 +4293,11 @@ vec2-copy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vec2-copy/-/vec2-copy-1.0.0.tgz#c6eec1d8dad54625194e5f71f8433b62d2f20a7a"
   integrity sha1-xu7B2NrVRiUZTl9x+EM7YtLyCno=
+
+vectors@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/vectors/-/vectors-0.1.0.tgz#503fbb9b804464126a88ea8ac7999251798ea854"
+  integrity sha1-UD+7m4BEZBJqiOqKx5mSUXmOqFQ=
 
 vue-eslint-parser@^2.0.2:
   version "2.0.3"
