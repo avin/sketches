@@ -1,10 +1,6 @@
 import canvasSketch from 'canvas-sketch';
-import { lerp } from 'canvas-sketch-util/math';
-import * as dat from 'dat.gui';
-import { drawLine } from './lib/ctx';
-import { pointsDistance } from './lib/geometry';
 import { vec3, mat4 } from 'gl-matrix';
-import random from 'canvas-sketch-util/random';
+import { drawLine } from './lib/ctx';
 import { rope } from './lib/shape';
 
 const settings = {
@@ -12,7 +8,7 @@ const settings = {
     animate: true,
 };
 
-const sketch = async ({ width, height, context }) => {
+const sketch = async ({ width, height }) => {
     const cubeVertices = [
         [-1, -1, +1],
         [-1, -1, -1],
@@ -31,7 +27,6 @@ const sketch = async ({ width, height, context }) => {
     const maxSectionLength = 100;
 
     return ({ context, time }) => {
-
         context.fillStyle = 'hsla(0, 0%, 98%, .2)';
         context.fillRect(0, 0, width, height);
 
@@ -67,7 +62,7 @@ const sketch = async ({ width, height, context }) => {
         }
 
         const sectionRopes = sections.map(section =>
-            rope(section.map((p, idx) => [p[0], p[1], Math.sqrt(section.length - idx)/2]))
+            rope(section.map((p, idx) => [p[0], p[1], Math.sqrt(section.length - idx) / 2]))
         );
 
         sectionRopes.forEach((section, idx) => {
