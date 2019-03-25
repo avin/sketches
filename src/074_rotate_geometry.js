@@ -1,8 +1,5 @@
 import canvasSketch from 'canvas-sketch';
 import { vec3, mat4 } from 'gl-matrix';
-import { clamp } from 'canvas-sketch-util/math';
-import { drawLine } from './lib/ctx';
-import { rope } from './lib/shape';
 
 const settings = {
     dimensions: [1024, 1024],
@@ -21,15 +18,7 @@ const sketch = async ({ context, width, height }) => {
         [-1, +1, +1],
     ];
 
-    const cubeEdges = [];
-
-    for (let n = 0; n < cubeVertices.length; n += 1) {
-        for (let m = 0; m < cubeVertices.length / 2; m += 1) {
-            const i = (n + m) % cubeVertices.length;
-
-            cubeEdges.push([n, i]);
-        }
-    }
+    const cubeEdges = [[0, 7], [0, 3], [0, 1], [6, 7], [6, 5], [6, 1], [2, 5], [2, 1], [2, 3], [4, 3], [4, 5], [4, 7]];
 
     const initView = mat4.create();
 
@@ -37,21 +26,24 @@ const sketch = async ({ context, width, height }) => {
     backCanvas.width = width;
     backCanvas.height = height;
     const backCanvasContext = backCanvas.getContext('2d');
-    const backContextImageData = backCanvasContext.getImageData(0,0,width, height);
 
     let lastTime = 0;
 
-    context.fillStyle = 'hsla(0, 0%, 98%)';
-    context.fillRect(0, 0, width, height);
+    [context, backCanvasContext].forEach(context => {
+        context.fillStyle = 'hsla(0, 0%, 98%)';
+        context.fillRect(0, 0, width, height);
+    });
+
+    let pathBuffer = [];
+    let odd = true;
 
     return ({ context, time }) => {
-
         context.drawImage(backCanvas, 0, 0);
 
         context.lineWidth = 1;
-        context.strokeStyle = '#202B33';
+        context.strokeStyle = 'hsl(0, 0%, 98%)';
 
-        const total = 5;
+        const total = 20;
         const path = new Path2D();
         for (let i = 0; i < total; i += 1) {
             const modelView = mat4.clone(initView);
@@ -59,7 +51,7 @@ const sketch = async ({ context, width, height }) => {
             mat4.rotateX(modelView, modelView, Math.cos(time) + time / 10);
             mat4.rotateY(modelView, modelView, Math.sin(time));
             mat4.rotateZ(modelView, modelView, Math.sin(time + Math.PI / 4));
-            const sF = (Math.cos(time) / 2 + 1.5) / Math.sqrt(i/2);
+            const sF = (Math.cos(time) / 4 + 1.5) / Math.sqrt(i / 2);
             mat4.scale(modelView, modelView, [sF, sF, sF]);
 
             context.fillStyle = `hsl(${time}, 80%, 50%)`;
@@ -71,33 +63,46 @@ const sketch = async ({ context, width, height }) => {
                 return pT;
             });
 
-            cubeEdges.forEach(edge => {
+            cubeEdges.forEach((edge, eI) => {
                 const lineCoords = edge.map(pN => {
                     return [cubeVerticesMorphed[pN][0] * 100 + width / 2, cubeVerticesMorphed[pN][1] * 100 + width / 2];
                 });
-                lineCoords.forEach(p => {
-                    path.lineTo(p[0], p[1]);
+                lineCoords.forEach((p, pI) => {
+                    if (eI === 0 && pI === 0) {
+                        path.moveTo(p[0], p[1]);
+                    } else {
+                        path.lineTo(p[0], p[1]);
+                    }
                 });
             });
         }
 
         context.stroke(path);
 
-        const contextImageData = context.getImageData(0, 0, width, height);
+        if (time - lastTime > 0.04) {
+            pathBuffer.push(path);
+            odd = !odd;
+            if (pathBuffer.length > 2) {
+                pathBuffer = pathBuffer.slice(1);
+            } else {
+                return;
+            }
 
-
-        if(time-lastTime > .05){
             lastTime = time;
 
-            for (let i = 0; i < backContextImageData.data.length; i += 4) {
-                for (let j = 0; j < 3; j += 1) {
-                    backContextImageData.data[i + j] = clamp(contextImageData.data[i + j] + 20, 0, 255);
-                }
-                backContextImageData.data[i + 3] = 255;
-            }
-            backCanvasContext.putImageData(backContextImageData, 0, 0);
-        }
+            backCanvasContext.fillStyle = 'hsla(0, 0%, 10%)';
+            backCanvasContext.fillRect(0, 0, width, height);
 
+            if (odd) {
+                backCanvasContext.lineWidth = 1;
+                backCanvasContext.strokeStyle = '#F00';
+                backCanvasContext.stroke(pathBuffer[1]);
+            } else {
+                backCanvasContext.lineWidth = 1;
+                backCanvasContext.strokeStyle = '#0FF';
+                backCanvasContext.stroke(pathBuffer[0]);
+            }
+        }
     };
 };
 
