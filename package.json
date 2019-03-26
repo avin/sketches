@@ -28,6 +28,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bunny": "^1.0.1",
         "canvas-sketch": "^0.2.0",
         "canvas-sketch-util": "^1.6.0",
         "chaikin-smooth": "^1.0.4",
