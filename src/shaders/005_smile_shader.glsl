@@ -1,5 +1,3 @@
-// Based on https://www.youtube.com/watch?v=cQXAbndD5CQ 
- 
 precision highp float; 
  
 uniform vec2 u_resolution; 
