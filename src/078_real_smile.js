@@ -7,13 +7,23 @@ const settings = {
     animate: true,
 };
 
-const sketch = ({ gl, width, height }) => {
+const sketch = ({ gl, width, height, canvas }) => {
+
+    let mx = width/2;
+    let my = height/2;
+
+    canvas.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+    });
+
     return createShader({
         gl,
         frag,
         uniforms: {
             u_time: ({ time }) => time,
-            u_resolution: () => [width, height]
+            u_resolution: () => [width, height],
+            u_mouse: () => [mx, my]
         },
     });
 };
