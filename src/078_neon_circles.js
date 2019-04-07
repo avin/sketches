@@ -1,6 +1,6 @@
 const canvasSketch = require('canvas-sketch');
 const createShader = require('canvas-sketch-util/shader');
-const frag = require('./shaders/010_neon_circles.js.glsl');
+const frag = require('./shaders/010_neon_circles.glsl');
 
 const settings = {
     context: 'webgl',
