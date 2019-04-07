@@ -1,6 +1,6 @@
 const canvasSketch = require('canvas-sketch');
 const createShader = require('canvas-sketch-util/shader');
-const frag = require("./shaders/009_exp.glsl");
+const frag = require("./shaders/009_arc_dance.glsl");
 
 const settings = {
     context: 'webgl',
