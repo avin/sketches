@@ -1,4 +1,4 @@
-// Inspired by https://www.youtube.com/watch?v=3CycKKJiwis   
+// Inspired by https://www.youtube.com/watch?v=3CycKKJiwis            
 precision highp float; 
  
 uniform float u_time; 
@@ -82,5 +82,4 @@ void main() {
     col = vec3(1.0, m, 1.0) * m;
     
     gl_FragColor = vec4(col, 1.0);
-    
 }
