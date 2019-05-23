@@ -17,3 +17,7 @@ Run the sketch you need:
 ```
 canvas-sketch-cli src/SKETCH_NAME.js --open
 ```
+
+## More
+
+Check out more GLSL experiments at my [shadertoy.com page](https://www.shadertoy.com/user/avin)
