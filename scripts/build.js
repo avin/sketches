@@ -76,7 +76,6 @@ images.forEach(image => {
 // Copy website build
 // ======================
 
-fs.mkdirpSync('./website/build');
 fs.copySync('./website/build', buildFolder);
 fs.copySync('./editor', `${buildFolder}editor`);
 
