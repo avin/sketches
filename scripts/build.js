@@ -1,9 +1,10 @@
 const fs = require("fs-extra");
 const sharp = require('sharp');
 const execSync = require('child_process').execSync;
+
 const srcFolder = './src/sketches';
-const previewFolder = './preview/';
-const buildFolder = './build/';
+const previewFolder = './preview';
+const buildFolder = './build';
 
 fs.ensureDirSync(`${buildFolder}preview/small`);
 fs.ensureDirSync(`${buildFolder}editor`);
@@ -40,14 +41,14 @@ const filesList = [];
 
 files.forEach(file => {
     if (file.match(/\.js$/)) {
-        execSync(`canvas-sketch-cli ${srcFolder + file} --build --inline --no-compress --dir ${buildFolder}`);
+        execSync(`canvas-sketch-cli ${srcFolder}/${file} --build --inline --no-compress --dir ${buildFolder}`);
         linksList += `<li><a href="${file.replace(/\.js$/, '.html')}">${file.replace(/\.js$/, '')}</a></li>`;
         filesList.push(file.replace(/\.js$/, ''));
     }
 });
 
-fs.writeFileSync(`${buildFolder}files.html`, indexHtml.replace('{{LINKS}}', linksList));
-fs.writeFileSync(`${buildFolder}files.json`, JSON.stringify(filesList.reverse()));
+fs.writeFileSync(`${buildFolder}/files.html`, indexHtml.replace('{{LINKS}}', linksList));
+fs.writeFileSync(`${buildFolder}/files.json`, JSON.stringify(filesList.reverse()));
 
 // ======================
 // Process images
@@ -56,20 +57,20 @@ fs.writeFileSync(`${buildFolder}files.json`, JSON.stringify(filesList.reverse())
 const images = fs.readdirSync(previewFolder);
 
 images.forEach(image => {
-    const imageSrc = `${previewFolder}${image}`;
+    const imageSrc = `${previewFolder}/${image}`;
     sharp(imageSrc)
         .resize(200, 200)
         .jpeg({
             quality: 100,
         })
-        .toFile(`${buildFolder}preview/${image}`);
+        .toFile(`${buildFolder}/preview/${image}`);
 
     sharp(imageSrc)
         .resize(30, 30)
         .jpeg({
             quality: 100,
         })
-        .toFile(`${buildFolder}preview/small/${image}`);
+        .toFile(`${buildFolder}/preview/small/${image}`);
 });
 
 // ======================
@@ -77,7 +78,7 @@ images.forEach(image => {
 // ======================
 
 fs.copySync('./website/build', buildFolder);
-fs.copySync('./editor', `${buildFolder}editor`);
+fs.copySync('./editor', `${buildFolder}/editor`);
 
 
 
