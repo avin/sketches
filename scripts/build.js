@@ -6,8 +6,8 @@ const srcFolder = './src/sketches';
 const previewFolder = './preview';
 const buildFolder = './build';
 
-fs.ensureDirSync(`${buildFolder}preview/small`);
-fs.ensureDirSync(`${buildFolder}editor`);
+fs.ensureDirSync(`${buildFolder}/preview/small`);
+fs.ensureDirSync(`${buildFolder}/editor`);
 
 const indexHtml = `<!doctype html>
 <html lang="en">
