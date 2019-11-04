@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const sharp = require('sharp');
 const execSync = require('child_process').execSync;
-const srcFolder = './src/';
+const srcFolder = './src/sketches';
 const previewFolder = './preview/';
 const buildFolder = './build/';
 
