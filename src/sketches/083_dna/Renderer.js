@@ -36,8 +36,6 @@ export default class {
         this.scene.clearColor = new BABYLON.Color3.FromHexString('#F5F8FA');
         // this.scene.clearColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
-        this.scene.debugLayer.show();
-
         this.addCamera();
         this.addLight();
 
@@ -55,7 +53,6 @@ export default class {
 
         // Black ball
         const blackBall = BABYLON.Mesh.CreateSphere('blackBall', 5, 1, this.scene, false);
-        // let blackBall = BABYLON.Mesh.CreateBox("mainBall", 1, this.scene, false);
         blackBall.material = new BABYLON.StandardMaterial('blackBallMaterial', this.scene);
         blackBall.material.diffuseColor = new BABYLON.Color3.FromHexString('#1F4B99');
         blackBall.scaling = new BABYLON.Vector3(0, 0, 0);
@@ -65,7 +62,6 @@ export default class {
 
         // Medium ball
         const mediumBall = BABYLON.Mesh.CreateSphere('mediumBall', 5, 1, this.scene, false);
-        // let mediumBall = BABYLON.Mesh.CreateBox("mainBall", 1, this.scene, false);
         mediumBall.material = new BABYLON.StandardMaterial('mediumBallMaterial', this.scene);
         mediumBall.material.diffuseColor = new BABYLON.Color3.FromHexString('#2965CC');
         mediumBall.scaling = new BABYLON.Vector3(0, 0, 0);

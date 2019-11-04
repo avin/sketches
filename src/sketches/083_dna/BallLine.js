@@ -41,7 +41,6 @@ export default class {
 
                 mesh = _.sample(this.mainBalls);
                 ball = mesh.createInstance(`ball${index}`);
-                // ball = BABYLON.Mesh.CreateSphere('mediumBall', 10, this.renderer.scene, false);
                 ball.position.x = x + (-1 + _.random(2)) / 10;
                 ball.position.z = randomRemotenessZ;
                 ball.position.y = randomRemotenessY;
