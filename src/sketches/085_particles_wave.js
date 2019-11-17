@@ -38,13 +38,9 @@ const sketch = ({ context }) => {
 
     const shaderPoint = THREE.ShaderLib.points;
     const uniforms = THREE.UniformsUtils.clone(shaderPoint.uniforms);
-    uniforms.size.value = 100;
-    uniforms.scale.value = 5; // in my case value is 350
 
     const pMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-            ...uniforms,
-        },
+        uniforms,
         defines: {
             USE_FOG: true,
             FOG_EXP2: true,
@@ -63,9 +59,9 @@ const sketch = ({ context }) => {
     // now create the individual particles
     for (let x = 0; x < particleCount; x += 1) {
         for (let y = 0; y < particleCount; y += 1) {
-            const pX = (random.gaussian() * cubeSize - cubeSizeHalf) * 0.25;
+            const pX = (random.gaussian() * cubeSize - cubeSizeHalf) * 0.2;
             const pY = 0;
-            const pZ = (random.gaussian() * cubeSize - cubeSizeHalf) * 0.25;
+            const pZ = (random.gaussian() * cubeSize - cubeSizeHalf) * 0.2;
             const particle = new THREE.Vector3(pX, pY, pZ);
 
             particles.vertices.push(particle);
@@ -88,12 +84,8 @@ const sketch = ({ context }) => {
             camera.updateProjectionMatrix();
         },
         // Update & render your scene here
-        render({ time, dimensions, frame }) {
+        render({ time, pixelRatio }) {
             const t = time * 0.25;
-
-            if (frame === 1) {
-                // console.log(particleSystem.geometry.vertices);
-            }
 
             particleSystem.geometry.vertices.forEach(i => {
                 i.y = random.noise3D(i.x, i.z, 0.1 + t * 1.1, 0.5) * 0.5;
@@ -101,10 +93,7 @@ const sketch = ({ context }) => {
             });
             particleSystem.geometry.verticesNeedUpdate = true;
 
-            const mmax = Math.max(dimensions[1], dimensions[0]);
-            const mmin = Math.min(dimensions[1], dimensions[0]);
-
-            uniforms.size.value = (mmin / mmax) * 100;
+            uniforms.size.value = 60 * pixelRatio;
 
             camera.position.x = 11 * Math.cos(t * 0.25);
             camera.position.z = 11 * Math.sin(t * 0.25);

@@ -11,7 +11,7 @@ void main() {
     float g = length(uv);
 
     g = .001 / smoothstep(.0, 1. - clamp(fogDepth * .021, .0, .79), g);
-    g *= clamp(1. - length(uv)*2., 0., 1.);
+    g *= 1. - length(uv)*2.;
 
     gl_FragColor = vec4(clamp(g / (fogDepth*0.1), 0., 1.));
 
