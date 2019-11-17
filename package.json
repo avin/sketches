@@ -52,6 +52,7 @@
         "sharp": "^0.23.2",
         "soundcloud-badge": "^1.1.0",
         "stats.js": "^0.17.0",
+        "three": "^0.110.0",
         "web-audio-analyser": "^2.0.1"
     },
     "devDependencies": {
