@@ -34,6 +34,7 @@
         "d3-delaunay": "^5.1.6",
         "dat.gui": "^0.7.5",
         "dequal": "^1.0.0",
+        "earcut": "^2.2.1",
         "fs-extra": "^8.1.0",
         "gl-mat4": "^1.2.0",
         "gl-matrix": "^3.1.0",
@@ -52,6 +53,7 @@
         "sharp": "^0.23.2",
         "soundcloud-badge": "^1.1.0",
         "stats.js": "^0.17.0",
+        "tess2": "^1.0.0",
         "three": "^0.110.0",
         "web-audio-analyser": "^2.0.1"
     },
