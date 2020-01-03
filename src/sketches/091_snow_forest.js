@@ -11,12 +11,7 @@ const canvasSketch = require('canvas-sketch');
 const font = require('./091_snow_forest/font.json');
 
 const randomInstance = random.createRandom();
-// randomInstance.setSeed(randomInstance.getRandomSeed());
 randomInstance.setSeed('996048');
-
-// 70808
-// 996048
-console.log(randomInstance.getSeed());
 
 const settings = {
     animate: true,
