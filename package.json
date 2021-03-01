@@ -55,7 +55,7 @@
         "soundcloud-badge": "^1.1.0",
         "stats.js": "^0.17.0",
         "tess2": "^1.0.0",
-        "three": "^0.110.0",
+        "three": "^0.125.0",
         "web-audio-analyser": "^2.0.1"
     },
     "devDependencies": {
